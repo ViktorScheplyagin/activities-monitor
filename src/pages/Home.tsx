@@ -1,9 +1,10 @@
 "use client";
-import { Timer } from "@/features/pomodoro/components/Timer";
-import { Controls } from "@/features/pomodoro/components/Controls";
-import { usePomodoro } from "@/features/pomodoro/hooks/usePomodoro";
+import { Timer, Controls, usePomodoro } from "@/features/pomodoro";
+import { Theme, ThemeContext } from "@/features/theme/api/themeContext";
+import { Header } from "@/widgets/Header";
+import { useEffect, useState } from "react";
 
-const HomePage: React.FC = () => {
+export const HomePage: React.FC = () => {
   const {
     mode,
     timeLeft,
@@ -13,22 +14,32 @@ const HomePage: React.FC = () => {
     changeWorkDuration,
     changeBreakDuration,
   } = usePomodoro();
+  const [theme, setTheme] = useState<Theme>("dark");
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }, [theme]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">Pomodoro Timer</h1>
-        <Timer timeLeft={timeLeft} mode={mode} />
-        <Controls
-          isActive={isActive}
-          toggleTimer={toggleTimer}
-          resetTimer={resetTimer}
-          changeWorkDuration={changeWorkDuration}
-          changeBreakDuration={changeBreakDuration}
-        />
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="bg-white p-8 rounded-lg shadow-md dark:bg-gray-800">
+          <Header />
+          <h1 className="text-3xl font-bold mb-6 text-center dark:text-gray-400">
+            Pomodoro Timer
+          </h1>
+          <Timer timeLeft={timeLeft} mode={mode} />
+          <Controls
+            isActive={isActive}
+            toggleTimer={toggleTimer}
+            resetTimer={resetTimer}
+            changeWorkDuration={changeWorkDuration}
+            changeBreakDuration={changeBreakDuration}
+          />
+        </div>
       </div>
-    </div>
+    </ThemeContext.Provider>
   );
 };
-
-export default HomePage;

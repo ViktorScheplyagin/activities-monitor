@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@/shared/components/Button";
-import { TIMER_OPTIONS } from "@/shared/constants/timerOptions";
+import { Button, Select } from "@/shared/components";
+import { TIMER_OPTIONS } from "@/shared/constants";
 
 interface ControlsProps {
   isActive: boolean;
@@ -24,26 +24,14 @@ export const Controls: React.FC<ControlsProps> = ({
         <Button onClick={resetTimer}>Reset</Button>
       </div>
       <div className="flex justify-center space-x-4">
-        <select
-          className="p-2 rounded"
-          onChange={(e) => changeWorkDuration(Number(e.target.value))}
-        >
-          {TIMER_OPTIONS.work.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <select
-          className="p-2 rounded"
-          onChange={(e) => changeBreakDuration(Number(e.target.value))}
-        >
-          {TIMER_OPTIONS.break.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <Select
+          options={TIMER_OPTIONS.work}
+          onChange={(value) => changeWorkDuration(value)}
+        />
+        <Select
+          options={TIMER_OPTIONS.break}
+          onChange={(value) => changeBreakDuration(value)}
+        />
       </div>
     </div>
   );
