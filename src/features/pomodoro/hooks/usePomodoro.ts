@@ -7,25 +7,31 @@ export const usePomodoro = () => {
   const [mode, setMode] = useState<TimerMode>("work");
   const [timeLeft, setTimeLeft] = useState(TIMER_OPTIONS.work[0].value);
   const [isActive, setIsActive] = useState(false);
-  const [selectedWork, setSelectedWork] = useState(TIMER_OPTIONS.work[0].value);
-  const [selectedBreak, setSelectedBreak] = useState(
+  const [workDuration, setWorkDuration] = useState(TIMER_OPTIONS.work[0].value);
+  const [breakDuration, setBreakDuration] = useState(
     TIMER_OPTIONS.break[0].value
   );
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    const timeWorker = new Worker(
+      new URL("@/features/pomodoro/workers/timeWorker.ts", import.meta.url)
+    );
+    timeWorker.onmessage = () => {
+      setTimeLeft((prev) => Math.max(prev - 1, 0));
+    };
 
     if (isActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((time) => time - 1);
-      }, 1000);
+      timeWorker.postMessage({ command: "start", interval: 1000 });
     } else if (timeLeft === 0) {
       setMode((prevMode) => (prevMode === "work" ? "break" : "work"));
-      setTimeLeft(mode === "work" ? selectedBreak : selectedWork);
+      setTimeLeft(mode === "work" ? breakDuration : workDuration);
     }
 
-    return () => clearInterval(interval);
-  }, [isActive, timeLeft, mode, selectedWork, selectedBreak]);
+    return () => {
+      timeWorker.postMessage({ command: "stop" });
+      timeWorker.terminate();
+    };
+  }, [isActive, timeLeft, mode, workDuration, breakDuration]);
 
   const toggleTimer = useCallback(() => {
     setIsActive((prev) => !prev);
@@ -34,12 +40,12 @@ export const usePomodoro = () => {
   const resetTimer = useCallback(() => {
     setIsActive(false);
     setMode("work");
-    setTimeLeft(selectedWork);
-  }, [selectedWork]);
+    setTimeLeft(workDuration);
+  }, [workDuration]);
 
   const changeWorkDuration = useCallback(
     (duration: number) => {
-      setSelectedWork(duration);
+      setWorkDuration(duration);
       if (mode === "work") {
         setTimeLeft(duration);
         setIsActive(false);
@@ -50,7 +56,7 @@ export const usePomodoro = () => {
 
   const changeBreakDuration = useCallback(
     (duration: number) => {
-      setSelectedBreak(duration);
+      setBreakDuration(duration);
       if (mode === "break") {
         setTimeLeft(duration);
         setIsActive(false);
