@@ -3,7 +3,7 @@ import { Button, Select } from "@/shared/ui";
 import { TIMER_OPTIONS } from "../constants/timerOptions";
 
 interface ControlsProps {
-  isActive: boolean;
+  isTimerRunning: boolean;
   toggleTimer: () => void;
   resetTimer: () => void;
   changeWorkDuration: (duration: number) => void;
@@ -11,7 +11,7 @@ interface ControlsProps {
 }
 
 export const Controls: React.FC<ControlsProps> = ({
-  isActive,
+  isTimerRunning,
   toggleTimer,
   resetTimer,
   changeWorkDuration,
@@ -20,7 +20,9 @@ export const Controls: React.FC<ControlsProps> = ({
   return (
     <div className="mt-8 space-y-4">
       <div className="flex justify-center space-x-4">
-        <Button onClick={toggleTimer}>{isActive ? "Pause" : "Start"}</Button>
+        <Button onClick={toggleTimer}>
+          {isTimerRunning ? "Pause" : "Start"}
+        </Button>
         <Button onClick={resetTimer}>Reset</Button>
       </div>
       <div className="flex justify-center space-x-4">
