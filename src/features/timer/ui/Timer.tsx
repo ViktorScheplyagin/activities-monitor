@@ -39,20 +39,15 @@ export const Timer: React.FC<TimerProps> = ({ timeLeft, mode }) => {
   }, [mode]);
 
   return (
-    <div className="text-6xl font-bold text-center">
-      <span
-        className={
-          mode === "work"
-            ? "text-red-500 dark:text-red-400"
-            : "text-green-500 dark:text-green-400"
-        }
-      >
-        {minutes.toString().padStart(2, "0")}:
-        {seconds.toString().padStart(2, "0")}
-      </span>
-      <div className="text-2xl mt-2 dark:text-gray-400">
-        {mode === "work" ? "Work" : "Break"}
-      </div>
+    <div
+      className={
+        mode === "work"
+          ? "text-red-500 dark:text-red-400"
+          : "text-green-500 dark:text-green-400"
+      }
+    >
+      {minutes.toString().padStart(2, "0")}:
+      {seconds.toString().padStart(2, "0")}
     </div>
   );
 };
