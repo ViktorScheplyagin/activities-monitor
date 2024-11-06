@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Select } from "@/shared/components";
-import { TIMER_OPTIONS } from "@/shared/constants";
+import { Button, Select } from "@/shared/ui";
+import { TIMER_OPTIONS } from "../constants/timerOptions";
 
 interface ControlsProps {
   isActive: boolean;

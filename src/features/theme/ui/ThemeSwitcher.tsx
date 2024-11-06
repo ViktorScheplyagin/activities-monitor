@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeContext } from "../api/themeContext";
+import { ThemeContext } from "../model/themeContext";
 
 export const ThemeSwitcher: React.FC = () => {
   const context = useContext(ThemeContext);

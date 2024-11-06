@@ -1,2 +1,2 @@
-export { ThemeContext } from "./api/themeContext";
+export { ThemeContext } from "./model/themeContext";
 export { ThemeSwitcher } from "./ui/ThemeSwitcher";
