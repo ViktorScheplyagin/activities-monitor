@@ -1,9 +1,22 @@
 "use client";
 import { useTimer, Timer, Controls } from "@/features/timer";
+import {
+  requestNotificationPermission,
+  showNotification,
+} from "@/features/notification";
 import { Card } from "@/shared/ui";
+import { useEffect } from "react";
 
 export const PomodoroTimer = () => {
   const timer = useTimer();
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  useEffect(() => {
+    showNotification("Pomodoro завершён!");
+  }, [timer.mode]);
 
   return (
     <Card>
