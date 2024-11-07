@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { ThemeContext } from "../model/themeContext";
+import { useContext, useEffect } from "react";
+import { ThemeContext } from "@/features/theme";
 
 export const ThemeSwitcher: React.FC = () => {
   const context = useContext(ThemeContext);
@@ -7,6 +7,12 @@ export const ThemeSwitcher: React.FC = () => {
   const toggleTheme = () => {
     context?.setTheme(context.theme === "light" ? "dark" : "light");
   };
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(context?.theme ?? "dark");
+  }, [context?.theme]);
 
   return (
     <button
