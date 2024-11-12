@@ -20,3 +20,4 @@ export const Timer: React.FC<TimerProps> = ({ timeLeft, mode }) => {
     </div>
   );
 };
+// 

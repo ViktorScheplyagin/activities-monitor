@@ -1,14 +1,13 @@
 export const Select = ({
   options,
-  onChange,
+  ...props
 }: {
   options: { value: number; label: string }[];
-  onChange: (value: number) => void;
-}) => {
+} & React.SelectHTMLAttributes<HTMLSelectElement>) => {
   return (
     <select
       className="p-2 rounded bg-gray-200 dark:bg-gray-600 dark:text-white"
-      onChange={(e) => onChange(Number(e.target.value))}
+      {...props}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>

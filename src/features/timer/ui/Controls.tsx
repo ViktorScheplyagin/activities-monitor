@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Select } from "@/shared/ui";
 import { TIMER_OPTIONS } from "../constants/timerOptions";
 
-interface ControlsProps {
+export interface ControlsProps {
   isTimerRunning: boolean;
   toggleTimer: () => void;
   resetTimer: () => void;
@@ -27,12 +27,18 @@ export const Controls: React.FC<ControlsProps> = ({
       </div>
       <div className="flex justify-center space-x-4">
         <Select
+          data-testid="work"
           options={TIMER_OPTIONS.work}
-          onChange={(value) => changeWorkDuration(value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+            changeWorkDuration(Number(e.currentTarget.value));
+          }}
         />
         <Select
+          data-testid="break"
           options={TIMER_OPTIONS.break}
-          onChange={(value) => changeBreakDuration(value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+            changeBreakDuration(Number(e.target.value));
+          }}
         />
       </div>
     </div>
