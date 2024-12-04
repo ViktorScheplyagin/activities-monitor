@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useStore } from "./store";
 
-export type TimerMode = "work" | "break";
-
 export const useTimer = () => {
   const {
     mode,
@@ -24,13 +22,13 @@ export const useTimer = () => {
     );
 
     timeWorker.onmessage = () => {
-      setTimeLeft((prev) => Math.max(prev - 1, 0));
+      setTimeLeft(timeLeft - 1);
     };
 
     if (isRunning && timeLeft > 0) {
       timeWorker.postMessage({ command: "start", interval: 1000 });
     } else if (timeLeft === 0) {
-      setMode((prevMode) => (prevMode === "work" ? "break" : "work"));
+      setMode(mode === "work" ? "break" : "work");
       setTimeLeft(mode === "work" ? breakDuration : workDuration);
     }
 

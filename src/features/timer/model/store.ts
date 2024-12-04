@@ -1,54 +1,53 @@
-import { useState } from "react";
 import { TIMER_OPTIONS } from "../constants/timerOptions";
-import { TimerMode } from "./timer";
+import { create } from "zustand";
 
-export const useStore = () => {
-  const [mode, setMode] = useState<TimerMode>("work");
-  const [isRunning, setIsRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(TIMER_OPTIONS.work[0].value);
-  const [workDuration, setWorkDuration] = useState(TIMER_OPTIONS.work[0].value);
-  const [breakDuration, setBreakDuration] = useState(
-    TIMER_OPTIONS.break[0].value
-  );
+export type TimerMode = "work" | "break";
 
-  const toggleTimer = () => {
-    setIsRunning((prev) => !prev);
-  };
+interface TimerStore {
+  mode: TimerMode;
+  isRunning: boolean;
+  timeLeft: number;
+  workDuration: number;
+  breakDuration: number;
+  setMode: (mode: TimerMode) => void;
+  setIsRunning: (isRunning: boolean) => void;
+  setTimeLeft: (timeLeft: number) => void;
+  toggleTimer: () => void;
+  resetTimer: () => void;
+  changeWorkDuration: (duration: number) => void;
+  changeBreakDuration: (duration: number) => void;
+}
 
-  const resetTimer = () => {
-    setIsRunning(false);
-    setMode("work");
-    setTimeLeft(workDuration);
-  };
-
-  const changeWorkDuration = (duration: number) => {
-    setWorkDuration(duration);
-    if (mode === "work") {
-      setTimeLeft(duration);
-      setIsRunning(false);
-    }
-  };
-
-  const changeBreakDuration = (duration: number) => {
-    setBreakDuration(duration);
-    if (mode === "break") {
-      setTimeLeft(duration);
-      setIsRunning(false);
-    }
-  };
-
-  return {
-    mode,
-    isRunning,
-    timeLeft,
-    workDuration,
-    breakDuration,
-    setMode,
-    setIsRunning,
-    setTimeLeft,
-    changeWorkDuration,
-    changeBreakDuration,
-    toggleTimer,
-    resetTimer,
-  };
-};
+export const useStore = create<TimerStore>((set, get) => ({
+  mode: "work",
+  isRunning: false,
+  timeLeft: TIMER_OPTIONS.work[0].value,
+  workDuration: TIMER_OPTIONS.work[0].value,
+  breakDuration: TIMER_OPTIONS.break[0].value,
+  setMode: (mode) => set({ mode }),
+  setIsRunning: (isRunning) => set({ isRunning }),
+  setTimeLeft: (timeLeft) => set({ timeLeft }),
+  toggleTimer: () => set((state) => ({ isRunning: !state.isRunning })),
+  resetTimer: () =>
+    set({
+      isRunning: false,
+      mode: "work",
+      timeLeft: get().workDuration,
+    }),
+  changeWorkDuration: (duration) => {
+    const { mode, timeLeft } = get();
+    set({
+      workDuration: duration,
+      timeLeft: mode === "work" ? duration : timeLeft,
+      isRunning: false,
+    });
+  },
+  changeBreakDuration: (duration) => {
+    const { mode, timeLeft } = get();
+    set({
+      breakDuration: duration,
+      timeLeft: mode === "break" ? duration : timeLeft,
+      isRunning: false,
+    });
+  },
+}));
