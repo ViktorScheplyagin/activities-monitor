@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Controls, ControlsProps } from "./Controls";
 
 describe("Controls", () => {
@@ -28,33 +29,32 @@ describe("Controls", () => {
 
   it("should call toggleTimer prop when the start/pause button is clicked", async () => {
     render(<Controls {...props} />);
-    fireEvent.click(screen.getByText("Start"));
+    await userEvent.click(screen.getByText("Start"));
     expect(props.toggleTimer).toHaveBeenCalledTimes(1);
   });
 
-  it("should call resetTimer prop when the reset button is clicked", () => {
+  it("should call resetTimer prop when the reset button is clicked", async () => {
     render(<Controls {...props} />);
-    fireEvent.click(screen.getByText("Reset"));
+    await userEvent.click(screen.getByText("Reset"));
     expect(props.resetTimer).toHaveBeenCalledTimes(1);
   });
 
-  it("should call changeWorkDuration prop when the work duration input is changed", () => {
-    const minutes = 25;
+  it("should call changeWorkDuration prop when the work duration input is changed", async () => {
+    const value = 25 * 60; // 25 minutes
     render(<Controls {...props} />);
-    fireEvent.change(screen.getByTestId("work"), {
-      value: `${minutes}`,
-    });
+    await userEvent.selectOptions(screen.getByTestId("work"), value.toString());
     expect(props.changeWorkDuration).toHaveBeenCalledTimes(1);
-    expect(props.changeWorkDuration).toHaveBeenCalledWith(minutes * 60);
+    expect(props.changeWorkDuration).toHaveBeenCalledWith(value);
   });
 
-  it("should call changeBreakDuration prop when the break duration input is changed", () => {
-    const minutes = 5;
+  it("should call changeBreakDuration prop when the break duration input is changed", async () => {
+    const value = 5 * 60; // 5 minutes
     render(<Controls {...props} />);
-    fireEvent.change(screen.getByTestId("break"), {
-      value: `${minutes}`,
-    });
+    await userEvent.selectOptions(
+      screen.getByTestId("break"),
+      value.toString()
+    );
     expect(props.changeBreakDuration).toHaveBeenCalledTimes(1);
-    expect(props.changeBreakDuration).toHaveBeenCalledWith(minutes * 60);
+    expect(props.changeBreakDuration).toHaveBeenCalledWith(value);
   });
 });
