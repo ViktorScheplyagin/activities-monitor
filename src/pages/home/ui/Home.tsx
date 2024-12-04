@@ -1,15 +1,16 @@
 "use client";
+import { useEffect } from "react";
 import { TasksList } from "@/features/tasks-list";
-import { Header } from "@/widgets/Header";
-import { PomodoroTimer } from "@/widgets/PomodoroTimer";
+import { Header } from "@/widgets/header";
+import {
+  requestNotificationPermission,
+  showNotification,
+} from "@/features/notification";
+import { Timer, useTimerStore } from "@/features/timer";
+import { useHomePageStore } from "../model/store";
 
 /**
  * TODO:
- * make a HomePage store
- * when user clicks on a task - make it active:
- * - highlight it
- * - load it to the store
- * when user clicks on a timer - make it inactive and make the new task active
  * time spent on a task should be displayed in the task
  *
  * later, remove this behaviour and make a button instead of click on a task
@@ -17,39 +18,29 @@ import { PomodoroTimer } from "@/widgets/PomodoroTimer";
  * MSKR IT WITH TDD
  */
 
-import { TaskData } from "@/entities/task";
-
-const mockTasks: TaskData[] = [
-  {
-    id: "2",
-    title: "Write unit tests",
-    status: "todo",
-    description: "Create test coverage for core components",
-    time: 0, // 15 minutes
-  },
-  {
-    id: "3",
-    title: "Update documentation",
-    status: "completed",
-    description: "Update README with new API endpoints",
-    time: 300, // 5 minutes
-  },
-  {
-    id: "4",
-    title: "Update documentation",
-    status: "paused",
-    description: "Update README with new API endpoints",
-    time: 300, // 5 minutes
-  },
-];
-
 export const HomePage: React.FC = () => {
+  const tasks = useHomePageStore((state) => state.tasks);
+  const focusedTask = useHomePageStore((state) => state.focusedTask);
+  const setFocusedTask = useHomePageStore((state) => state.setFocusedTask);
+
+  const mode = useTimerStore((state) => state.mode);
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  useEffect(() => {
+    showNotification("Pomodoro завершён!");
+  }, [mode]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
       <Header />
-      <PomodoroTimer />
+      <div className="w-1/3">
+        <Timer title={focusedTask?.title} />
+      </div>
       <div className="w-1/2">
-        <TasksList items={mockTasks} />
+        <TasksList items={tasks} onFocusChange={setFocusedTask} />
       </div>
     </div>
   );
