@@ -19,7 +19,6 @@ import { useHomePageStore } from "../model/store";
  */
 
 export const HomePage: React.FC = () => {
-  const tasks = useHomePageStore((state) => state.tasks);
   const focusedTask = useHomePageStore((state) => state.focusedTask);
   const setFocusedTask = useHomePageStore((state) => state.setFocusedTask);
 
@@ -40,7 +39,7 @@ export const HomePage: React.FC = () => {
         <Timer title={focusedTask?.title} />
       </div>
       <div className="w-1/2">
-        <TasksList items={tasks} onFocusChange={setFocusedTask} />
+        <TasksList onFocusChange={setFocusedTask} />
       </div>
     </div>
   );

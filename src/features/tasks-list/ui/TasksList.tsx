@@ -1,33 +1,57 @@
-import { TaskData, Task } from "@/entities/task";
+import { Task } from "@/entities/task";
+import { Button } from "@/shared/ui";
 import { useEffect, useState } from "react";
+import { useTasksListStore } from "../model/store";
+import { TaskCreator } from "./TaskCreator";
 
 interface Props {
-  items: TaskData[];
   onFocusChange: (id: string | null) => void;
 }
 
-export const TasksList = ({ items, onFocusChange }: Props) => {
+export const TasksList = ({ onFocusChange }: Props) => {
   const [focusedTaskId, setFocusedTaskId] = useState<string | null>(null);
+  const openCreator = useTasksListStore((state) => state.openCreator);
+  const tasks = useTasksListStore((state) => state.tasks);
+  const fetchTasks = useTasksListStore((state) => state.fetchTasks);
+  const isLoading = useTasksListStore((state) => state.isLoading);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   useEffect(() => {
     onFocusChange(focusedTaskId);
-  }, [focusedTaskId]);
+  }, [focusedTaskId, onFocusChange]);
 
   const handleTaskClick = (id: string) => {
     const newId = id === focusedTaskId ? null : id;
     setFocusedTaskId(newId);
   };
 
+  if (isLoading) {
+    return (
+      <div className="text-center text-2xl font-bold text-gray-500 dark:text-gray-400">
+        Loading tasks...
+      </div>
+    );
+  }
+
   return (
-    <div data-testid="tasks-list">
-      {items.map((item) => (
-        <Task
-          onClick={handleTaskClick}
-          key={item.id}
-          {...item}
-          isFocused={item.id === focusedTaskId}
-        />
-      ))}
+    <div>
+      <div className="mb-4 flex justify-end">
+        <Button onClick={openCreator}>New Task</Button>
+      </div>
+      <div data-testid="tasks-list">
+        {tasks.map((task) => (
+          <Task
+            onClick={handleTaskClick}
+            key={task.id}
+            {...task}
+            isFocused={task.id === focusedTaskId}
+          />
+        ))}
+      </div>
+      <TaskCreator />
     </div>
   );
 };
