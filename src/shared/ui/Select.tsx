@@ -157,6 +157,7 @@ interface SelectProps
   options: SelectOption[];
   onChange: (value: string) => void;
   value: string;
+  testId: string;
 }
 
 // custom component based on Shadcn/UI Select
@@ -165,11 +166,11 @@ export const Select = ({
   className,
   onChange,
   value,
-  ...props
+  testId,
 }: SelectProps) => {
   return (
     <SelectRoot onValueChange={onChange} value={value}>
-      <SelectTrigger className={className}>
+      <SelectTrigger className={className} data-testid={testId}>
         <SelectValue placeholder={value ?? "Select duration"} />
       </SelectTrigger>
       <SelectContent>

@@ -20,7 +20,7 @@ export const Controls: React.FC = () => {
       </div>
       <div className="flex justify-center gap-4">
         <Select
-          data-testid="work"
+          testId="work"
           options={TIMER_OPTIONS.work}
           value={String(workDuration)}
           onChange={(value: string) => {
@@ -28,7 +28,7 @@ export const Controls: React.FC = () => {
           }}
         />
         <Select
-          data-testid="break"
+          testId="break"
           options={TIMER_OPTIONS.break}
           value={String(breakDuration)}
           onChange={(value: string) => {
