@@ -10,10 +10,11 @@ interface Props {
 
 export const TasksList = ({ onFocusChange }: Props) => {
   const [focusedTaskId, setFocusedTaskId] = useState<string | null>(null);
-  const openEditor = useTasksListStore((state) => state.openEditor);
+
   const tasks = useTasksListStore((state) => state.tasks);
-  const fetchTasks = useTasksListStore((state) => state.fetchTasks);
   const isLoading = useTasksListStore((state) => state.isLoading);
+  const openEditor = useTasksListStore((state) => state.openEditor);
+  const fetchTasks = useTasksListStore((state) => state.fetchTasks);
   const deleteTask = useTasksListStore((state) => state.deleteTask);
 
   useEffect(() => {

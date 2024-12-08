@@ -1,4 +1,8 @@
-export { Button } from "./Button";
-export { Select } from "./Select";
-export { Card } from "./Card";
-export { Modal } from "./Modal";
+export { Button } from "./button";
+export { Dialog } from "./dialog";
+export { Select } from "./select";
+export { Card } from "./card";
+export { Input } from "./input";
+export { Label } from "./label";
+export { Textarea } from "./textarea";
+export { Popover } from "./popover";

@@ -1,20 +1,14 @@
 import { useEffect } from "react";
 import { useStore } from "./store";
 
-export const useTimer = () => {
-  const {
-    mode,
-    isRunning,
-    timeLeft,
-    workDuration,
-    breakDuration,
-    setMode,
-    setTimeLeft,
-    toggleTimer,
-    resetTimer,
-    changeWorkDuration,
-    changeBreakDuration,
-  } = useStore();
+export const useTimerWorkerSetup = () => {
+  const mode = useStore((state) => state.mode);
+  const isRunning = useStore((state) => state.isRunning);
+  const timeLeft = useStore((state) => state.timeLeft);
+  const workDuration = useStore((state) => state.workDuration);
+  const breakDuration = useStore((state) => state.breakDuration);
+  const setMode = useStore((state) => state.setMode);
+  const setTimeLeft = useStore((state) => state.setTimeLeft);
 
   useEffect(() => {
     const timeWorker = new Worker(
@@ -37,14 +31,4 @@ export const useTimer = () => {
       timeWorker.terminate();
     };
   }, [isRunning, timeLeft, mode, workDuration, breakDuration]);
-
-  return {
-    mode,
-    timeLeft,
-    isRunning,
-    toggle: toggleTimer,
-    reset: resetTimer,
-    changeWorkDuration,
-    changeBreakDuration,
-  };
 };

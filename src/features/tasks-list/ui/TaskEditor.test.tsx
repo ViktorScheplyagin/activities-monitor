@@ -87,6 +87,6 @@ describe("TaskEditor", () => {
     render(<TaskEditor />);
 
     expect(screen.getByText("Cancel")).toBeDisabled();
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByTestId("button-loader")).toBeInTheDocument();
   });
 });

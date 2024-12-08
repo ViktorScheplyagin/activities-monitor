@@ -1,5 +1,11 @@
-import { Button, Modal } from "@/shared/ui";
+import { Button, Dialog } from "@/shared/ui";
 import { useTasksListStore } from "../model/store";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TaskFormValues, taskFormSchema } from "../model/schema";
+import { Form } from "@/shared/ui/form";
+import { FormField } from "./FormField";
+import { useEffect } from "react";
 
 export const TaskEditor = () => {
   const isEditorOpen = useTasksListStore((state) => state.isEditorOpen);
@@ -9,58 +15,63 @@ export const TaskEditor = () => {
   const editTask = useTasksListStore((state) => state.editTask);
   const editingTask = useTasksListStore((state) => state.editingTask);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+  const form = useForm<TaskFormValues>({
+    resolver: zodResolver(taskFormSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+    },
+  });
 
+  useEffect(() => {
+    if (isEditorOpen) {
+      form.reset({
+        title: editingTask?.title || "",
+        description: editingTask?.description || "",
+      });
+    }
+  }, [isEditorOpen]);
+
+  const onSubmit = (data: TaskFormValues) => {
     if (editingTask) {
-      editTask(editingTask.id, { title, description });
+      editTask(editingTask.id, data);
     } else {
-      createTask({ title, description });
+      createTask(data);
     }
   };
 
   return (
-    <Modal
+    <Dialog
       isOpen={isEditorOpen}
       onClose={closeEditor}
       title={editingTask ? "Edit Task" : "Create New Task"}
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Task name
-            <input
-              type="text"
-              name="title"
-              defaultValue={editingTask?.title}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Description
-            <textarea
-              name="description"
-              defaultValue={editingTask?.description}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              rows={3}
-            />
-          </label>
-        </div>
-        <div className="flex justify-end space-x-2">
-          <Button onClick={closeEditor} disabled={isLoading} type="button">
-            Cancel
-          </Button>
-          <Button isLoading={isLoading} type="submit">
-            Save Changes
-          </Button>
-        </div>
-      </form>
-    </Modal>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField control={form.control} name="title" label="Task name" />
+
+          <FormField
+            control={form.control}
+            name="description"
+            label="Description"
+            type="textarea"
+          />
+
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={closeEditor}
+              disabled={isLoading}
+              type="button"
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isLoading} isLoading={isLoading}>
+              Save Changes
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </Dialog>
   );
 };

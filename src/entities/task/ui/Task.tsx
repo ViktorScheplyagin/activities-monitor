@@ -1,8 +1,9 @@
-import { Card } from "@/shared/ui";
+import { Button, Card } from "@/shared/ui";
 import { useMemo, useState } from "react";
 import { TaskData } from "@/entities/task";
-import { getStatusIcon } from "../lib/getStatusIcon";
 import { formatSeconds } from "../lib/formatSeconds";
+import { MoreHorizontal } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 
 type Props = TaskData & {
   isFocused: boolean;
@@ -16,76 +17,70 @@ export const Task = ({
   onEdit,
   onDelete,
   title,
-  status,
   description,
   time,
   id,
   isFocused,
 }: Props) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const timeText = useMemo(() => formatSeconds(time), [time]);
-  const statusIcon = useMemo(() => getStatusIcon(status), [status]);
 
-  const handleClick = () => onClick(id);
   const handleEdit = () => {
     onEdit?.(id);
-    setIsMenuOpen(false);
+    setIsOpen(false);
   };
   const handleDelete = () => {
     onDelete?.(id);
-    setIsMenuOpen(false);
+    setIsOpen(false);
   };
 
   return (
     <div className="m-2">
       <Card
-        onClick={handleClick}
+        onClick={() => onClick(id)}
         className={`cursor-pointer dark:text-white box-border relative ${
           isFocused ? "border-2 border-yellow-500" : ""
         }`}
       >
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between">
           <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <span>Status:</span>
-              {statusIcon}
-            </div>
             <div className="text-xl font-bold">{title}</div>
             <div className="text-sm">{description}</div>
             <div className="text-sm">{timeText}</div>
           </div>
 
-          <div className="flex items-center px-2 relative">
-            <button
-              className="px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsMenuOpen(!isMenuOpen);
-              }}
-            >
-              •••
-            </button>
-
-            {isMenuOpen && (
-              <div
-                className="absolute right-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10"
-                onClick={(e) => e.stopPropagation()}
+          <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="ghost"
+                type="button"
+                className="px-2 py-1 rounded"
+                onClick={(e) => {
+                  // Prevent the click event from bubbling up to the Card component
+                  // Without this, clicking the menu button would also trigger the Card's onClick
+                  e.stopPropagation();
+                }}
               >
-                <button
-                  className="w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700"
-                  onClick={handleEdit}
-                >
-                  Edit
-                </button>
-                <button
-                  className="w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600"
-                  onClick={handleDelete}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
+                <MoreHorizontal size={20} className="text-muted-foreground" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-40 p-1">
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                onClick={handleEdit}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start text-destructive hover:text-destructive"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            </PopoverContent>
+          </Popover>
         </div>
       </Card>
     </div>
