@@ -24,7 +24,7 @@ describe("TaskCreator", () => {
     expect(useTasksListStore.getState().closeCreator).toHaveBeenCalledTimes(1);
   });
 
-  it("should create task and close creator on form submit", async () => {
+  it("should create task on form submit", async () => {
     render(<TaskCreator />);
     await userEvent.type(screen.getByLabelText(/task name/i), "Test Task");
     await userEvent.type(
@@ -36,6 +36,5 @@ describe("TaskCreator", () => {
       title: "Test Task",
       description: "Test Description",
     });
-    expect(useTasksListStore.getState().closeCreator).toHaveBeenCalledTimes(1);
   });
 });

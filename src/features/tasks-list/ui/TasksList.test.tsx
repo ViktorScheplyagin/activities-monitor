@@ -29,7 +29,12 @@ describe("TasksList", () => {
     mockedTasks = Array.from({ length: 5 }, () => ({
       id: faker.string.uuid(),
       title: faker.lorem.sentence(),
-      status: faker.helpers.arrayElement(["todo", "completed", "paused"]), // TODO: test inProgress
+      status: faker.helpers.arrayElement([
+        "TODO",
+        "IN_PROGRESS",
+        "COMPLETED",
+        "PAUSED",
+      ]),
       time: faker.number.int({ min: 0, max: 3000 }),
       description: faker.lorem.sentence(),
     }));
