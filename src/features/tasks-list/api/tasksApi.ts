@@ -1,32 +1,16 @@
 import { TaskData } from "@/entities/task";
+import { api } from "@/shared/api/axios";
 
 export const tasksApi = {
   createTask: async (
     task: Omit<TaskData, "id" | "status" | "time">
   ): Promise<TaskData> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return {
-      id: crypto.randomUUID(),
-      status: "todo",
-      time: 0,
-      ...task,
-    };
+    const { data } = await api.post<TaskData>("/tasks", task);
+    return data;
   },
 
   fetchTasks: async (): Promise<TaskData[]> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return [
-      {
-        id: "1",
-        title: "Initial task",
-        description: "This is a mock task",
-        status: "todo",
-        time: 0,
-      },
-    ];
+    const { data } = await api.get<TaskData[]>("/tasks");
+    return data;
   },
 };

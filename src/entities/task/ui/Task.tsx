@@ -23,7 +23,7 @@ export const Task = ({
     <div className="m-2">
       <Card
         onClick={handleClick}
-        className={`p-4 cursor-pointer dark:text-white box-border ${
+        className={`cursor-pointer dark:text-white box-border ${
           isFocused ? "border-2 border-yellow-500" : ""
         }`}
       >
