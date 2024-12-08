@@ -5,34 +5,36 @@ import { tasksApi } from "../api/tasksApi";
 interface TasksListStore {
   tasks: TaskData[];
   isLoading: boolean;
-  isCreatorOpen: boolean;
-  isCreatorLoading: boolean;
-  openCreator: () => void;
-  closeCreator: () => void;
+  isEditorOpen: boolean;
+  editingTask: TaskData | null;
+  openEditor: (task?: TaskData) => void;
+  closeEditor: () => void;
   createTask: (task: Omit<TaskData, "id" | "status" | "time">) => Promise<void>;
   fetchTasks: () => Promise<void>;
+  editTask: (id: string, task: Partial<Omit<TaskData, "id">>) => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
 }
 
 export const useTasksListStore = create<TasksListStore>((set) => ({
   tasks: [],
   isLoading: false,
-  isCreatorOpen: false,
-  isCreatorLoading: false,
-  openCreator: () => set({ isCreatorOpen: true }),
-  closeCreator: () => set({ isCreatorOpen: false }),
+  isEditorOpen: false,
+  editingTask: null,
+  openEditor: (task) => set({ isEditorOpen: true, editingTask: task || null }),
+  closeEditor: () => set({ isEditorOpen: false, editingTask: null }),
   createTask: async (taskData) => {
     try {
-      set({ isCreatorLoading: true });
+      set({ isLoading: true });
       const newTask = await tasksApi.createTask(taskData);
       set((state) => ({
         tasks: [...state.tasks, newTask],
-        isCreatorOpen: false,
-        isCreatorLoading: false,
+        isEditorOpen: false,
+        editingTask: null,
+        isLoading: false,
       }));
     } catch (error) {
       console.error("Failed to create task:", error);
-    } finally {
-      set({ isCreatorLoading: false });
+      set({ isLoading: false });
     }
   },
   fetchTasks: async () => {
@@ -42,6 +44,34 @@ export const useTasksListStore = create<TasksListStore>((set) => ({
       set({ tasks, isLoading: false });
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
+      set({ isLoading: false });
+    }
+  },
+  editTask: async (id, taskData) => {
+    try {
+      set({ isLoading: true });
+      const updatedTask = await tasksApi.editTask(id, taskData);
+      set((state) => ({
+        tasks: state.tasks.map((task) => (task.id === id ? updatedTask : task)),
+        isEditorOpen: false,
+        editingTask: null,
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error("Failed to edit task:", error);
+      set({ isLoading: false });
+    }
+  },
+  deleteTask: async (id) => {
+    try {
+      set({ isLoading: true });
+      await tasksApi.deleteTask(id);
+      set((state) => ({
+        tasks: state.tasks.filter((task) => task.id !== id),
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error("Failed to delete task:", error);
       set({ isLoading: false });
     }
   },

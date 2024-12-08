@@ -13,4 +13,16 @@ export const tasksApi = {
     const { data } = await api.get<TaskData[]>("/tasks");
     return data;
   },
+
+  editTask: async (
+    id: string,
+    task: Partial<Omit<TaskData, "id">>
+  ): Promise<TaskData> => {
+    const { data } = await api.patch<TaskData>(`/tasks/${id}`, task);
+    return data;
+  },
+
+  deleteTask: async (id: string): Promise<void> => {
+    await api.delete(`/tasks/${id}`);
+  },
 };
