@@ -14,13 +14,13 @@ describe("TasksListStore", () => {
       tasks: Array.from({ length: 3 }, () => ({
         id: faker.string.uuid(),
         title: faker.lorem.sentence(),
-        status: faker.helpers.arrayElement(["todo", "completed", "paused"]),
+        status: faker.helpers.arrayElement(["TODO", "COMPLETED", "PAUSED"]),
         time: faker.number.int({ min: 0, max: 3000 }),
         description: faker.lorem.sentence(),
       })),
-      isCreatorOpen: false,
-      openCreator: useTasksListStore.getState().openCreator,
-      closeCreator: useTasksListStore.getState().closeCreator,
+      isEditorOpen: false,
+      openEditor: useTasksListStore.getState().openEditor,
+      closeEditor: useTasksListStore.getState().closeEditor,
       createTask: useTasksListStore.getState().createTask,
     });
 
@@ -29,23 +29,23 @@ describe("TasksListStore", () => {
   });
 
   describe("modal state", () => {
-    it("should start with creator closed", () => {
-      expect(useTasksListStore.getState().isCreatorOpen).toBe(false);
+    it("should start with editor closed", () => {
+      expect(useTasksListStore.getState().isEditorOpen).toBe(false);
     });
 
     it("should open creator", () => {
-      useTasksListStore.getState().openCreator();
-      expect(useTasksListStore.getState().isCreatorOpen).toBe(true);
+      useTasksListStore.getState().openEditor();
+      expect(useTasksListStore.getState().isEditorOpen).toBe(true);
     });
 
     it("should close creator", () => {
       // open it
-      useTasksListStore.getState().openCreator();
-      expect(useTasksListStore.getState().isCreatorOpen).toBe(true);
+      useTasksListStore.getState().openEditor();
+      expect(useTasksListStore.getState().isEditorOpen).toBe(true);
 
       // then close it
-      useTasksListStore.getState().closeCreator();
-      expect(useTasksListStore.getState().isCreatorOpen).toBe(false);
+      useTasksListStore.getState().closeEditor();
+      expect(useTasksListStore.getState().isEditorOpen).toBe(false);
     });
   });
 
@@ -81,14 +81,14 @@ describe("TasksListStore", () => {
 
     it("should close creator after successful task creation", async () => {
       // open the creator
-      useTasksListStore.getState().openCreator();
-      expect(useTasksListStore.getState().isCreatorOpen).toBe(true);
+      useTasksListStore.getState().openEditor();
+      expect(useTasksListStore.getState().isEditorOpen).toBe(true);
 
       // Create task
       await useTasksListStore.getState().createTask(newTaskData);
 
       // Creator should be closed
-      expect(useTasksListStore.getState().isCreatorOpen).toBe(false);
+      expect(useTasksListStore.getState().isEditorOpen).toBe(false);
     });
 
     it("should add the new task to the tasks list", async () => {

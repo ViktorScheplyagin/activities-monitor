@@ -19,13 +19,13 @@ export const Controls: React.FC<ControlsProps> = ({
 }) => {
   return (
     <div className="mt-8 space-y-4">
-      <div className="flex justify-center space-x-4">
+      <div className="flex justify-center gap-4">
         <Button onClick={toggleTimer}>
           {isTimerRunning ? "Pause" : "Start"}
         </Button>
         <Button onClick={resetTimer}>Reset</Button>
       </div>
-      <div className="flex justify-center space-x-4">
+      <div className="flex justify-center gap-4">
         <Select
           data-testid="work"
           options={TIMER_OPTIONS.work}

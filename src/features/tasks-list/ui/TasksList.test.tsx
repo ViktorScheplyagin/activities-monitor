@@ -44,9 +44,9 @@ describe("TasksList", () => {
     useTasksListStore.setState({
       tasks: mockedTasks,
       isLoading: false,
-      isCreatorOpen: false,
-      openCreator: jest.fn(),
-      closeCreator: jest.fn(),
+      isEditorOpen: false,
+      openEditor: jest.fn(),
+      closeEditor: jest.fn(),
       createTask: jest.fn(),
       fetchTasks: jest.fn(),
     });
@@ -66,16 +66,16 @@ describe("TasksList", () => {
     expect(onTaskClick).toHaveBeenCalledWith(mockedTasks[0].id);
   });
 
-  it("should open creator modal when 'New Task' button is clicked", async () => {
-    const openCreator = jest.fn();
+  it("should open editor modal when 'New Task' button is clicked", async () => {
+    const openEditor = jest.fn();
     useTasksListStore.setState({
       ...useTasksListStore.getState(),
-      openCreator,
+      openEditor,
     });
     render(<TasksList onFocusChange={onTaskClick} />);
 
     const newTaskButton = screen.getByText("New Task");
     await userEvent.click(newTaskButton);
-    expect(openCreator).toHaveBeenCalled();
+    expect(openEditor).toHaveBeenCalled();
   });
 });
