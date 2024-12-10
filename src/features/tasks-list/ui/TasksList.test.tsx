@@ -1,3 +1,4 @@
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { TasksList } from "./TasksList";
@@ -5,25 +6,16 @@ import { useTasksListStore } from "../model/store";
 import { TaskData } from "@/entities/task";
 import { faker } from "@faker-js/faker";
 
-jest.mock("../../../entities/task", () => ({
-  Task: (props: TaskData & { onClick: (id: string) => void }) => {
-    return (
-      <div data-testid={props.id} onClick={() => props.onClick(props.id)}>
-        {props.title}
-      </div>
-    );
-  },
-}));
+jest.mock("../../../entities/task");
 
-jest.mock("../api/tasksApi", () => ({
+jest.mock("../../../entities/task/api/tasksApi", () => ({
   tasksApi: {
-    fetchTasks: jest.fn().mockResolvedValue([]),
+    getAll: jest.fn().mockResolvedValue([]),
   },
 }));
 
 describe("TasksList", () => {
   let mockedTasks: TaskData[];
-  let onTaskClick: jest.Mock;
 
   beforeEach(() => {
     mockedTasks = Array.from({ length: 5 }, () => ({
@@ -38,7 +30,6 @@ describe("TasksList", () => {
       time: faker.number.int({ min: 0, max: 3000 }),
       description: faker.lorem.sentence(),
     }));
-    onTaskClick = jest.fn();
 
     // Initialize the store with mocked values
     useTasksListStore.setState({
@@ -53,17 +44,19 @@ describe("TasksList", () => {
   });
 
   it("should render 5 tasks", () => {
-    render(<TasksList onFocusChange={onTaskClick} />);
+    render(<TasksList />);
     const tasksList = screen.getByTestId("tasks-list");
     expect(tasksList.children).toHaveLength(mockedTasks.length);
   });
 
-  it("should call onTaskClick with the correct id when a task is clicked", async () => {
-    render(<TasksList onFocusChange={onTaskClick} />);
+  it("should redirect to task details page when task is clicked", async () => {
+    render(<TasksList />);
 
-    const task = screen.getByTestId(mockedTasks[0].id);
-    await userEvent.click(task);
-    expect(onTaskClick).toHaveBeenCalledWith(mockedTasks[0].id);
+    // task is wrapped in Link component
+    const taskLink = screen.getByRole("link", {
+      name: `${mockedTasks[0].title} ${mockedTasks[0].description}`,
+    });
+    expect(taskLink).toHaveAttribute("href", `/tasks/${mockedTasks[0].id}`);
   });
 
   it("should open editor modal when 'New Task' button is clicked", async () => {
@@ -72,7 +65,7 @@ describe("TasksList", () => {
       ...useTasksListStore.getState(),
       openEditor,
     });
-    render(<TasksList onFocusChange={onTaskClick} />);
+    render(<TasksList />);
 
     const newTaskButton = screen.getByText("New Task");
     await userEvent.click(newTaskButton);

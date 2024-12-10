@@ -52,7 +52,7 @@ export const TaskDetailsForm = ({
           {defaultActions.cancelText || "Cancel"}
         </Button>
       )}
-      <Button type="submit">
+      <Button type="submit" disabled={form.formState.isSubmitting}>
         {defaultActions?.submitText || "Save Changes"}
       </Button>
     </div>

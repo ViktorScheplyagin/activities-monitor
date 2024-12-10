@@ -2,9 +2,9 @@ import { useTasksListStore } from "./store";
 import { tasksApi } from "@/entities/task";
 import { faker } from "@faker-js/faker";
 
-jest.mock("../api/tasksApi", () => ({
+jest.mock("../../../entities/task/api/tasksApi", () => ({
   tasksApi: {
-    createTask: jest.fn(),
+    create: jest.fn(),
   },
 }));
 
