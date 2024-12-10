@@ -1,34 +1,20 @@
 import { Button, Card } from "@/shared/ui";
-import { useEffect, useState } from "react";
-import { useTasksListStore } from "../model/store";
 import { TaskEditor } from "./TaskEditor";
 import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import Link from "next/link";
 import { Task } from "@/entities/task/ui/Task";
+import { useTasksList } from "../model/use-tasks-list";
 
 export const TasksList = () => {
-  const tasks = useTasksListStore((state) => state.tasks);
-  const isLoading = useTasksListStore((state) => state.isLoading);
-  const openEditor = useTasksListStore((state) => state.openEditor);
-  const fetchTasks = useTasksListStore((state) => state.fetchTasks);
-  const deleteTask = useTasksListStore((state) => state.deleteTask);
-
-  const [taskIdToDelete, setTaskIdToDelete] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchTasks();
-  }, [fetchTasks]);
-
-  const handleDeleteClick = (taskId: string) => {
-    setTaskIdToDelete(taskId);
-  };
-
-  const handleDeleteConfirm = async () => {
-    if (taskIdToDelete) {
-      await deleteTask(taskIdToDelete);
-      setTaskIdToDelete(null);
-    }
-  };
+  const {
+    tasks,
+    isLoading,
+    openEditor,
+    taskIdToDelete,
+    handleDeleteClick,
+    handleDeleteConfirm,
+    handleDeleteCancel,
+  } = useTasksList();
 
   if (isLoading) {
     return (
@@ -52,11 +38,7 @@ export const TasksList = () => {
           </Card>
         )}
         {tasks.map((task) => (
-          <Link
-            key={task.id}
-            href={`/tasks/${task.id}`}
-            className="block transition-transform hover:scale-[1.02]"
-          >
+          <Link key={task.id} href={`/tasks/${task.id}`} className="block">
             <Task task={task} onDeleteClick={handleDeleteClick} />
           </Link>
         ))}
@@ -64,7 +46,7 @@ export const TasksList = () => {
       <TaskEditor />
       <DeleteTaskDialog
         isOpen={taskIdToDelete !== null}
-        onClose={() => setTaskIdToDelete(null)}
+        onClose={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
       />
     </div>
