@@ -1,12 +1,9 @@
 "use client";
 import { Timer } from "@/features/timer";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { tasksApi } from "@/entities/task/api/tasksApi";
 import { TaskDetailsForm } from "@/features/task-form";
-import { Task } from "@prisma/client";
-import type { TaskFormValues } from "@/features/task-form";
 import { Button, Card } from "@/shared/ui";
+import { useRouter } from "next/navigation";
+import { useTask } from "../model/use-task";
 
 interface Props {
   id: string;
@@ -14,29 +11,7 @@ interface Props {
 
 export const TaskPage = ({ id }: Props) => {
   const router = useRouter();
-  const [task, setTask] = useState<Task | null>(null);
-
-  useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const taskData = await tasksApi.getById(id);
-        setTask(taskData);
-      } catch (error) {
-        router.push("/");
-      }
-    };
-
-    fetchTask();
-  }, [id]);
-
-  const handleSubmit = async (values: TaskFormValues) => {
-    try {
-      await tasksApi.update(id, values);
-      router.push("/");
-    } catch (error) {
-      console.error("Failed to update task:", error);
-    }
-  };
+  const { task, handleSubmit, isSubmitting } = useTask(id);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
@@ -49,7 +24,7 @@ export const TaskPage = ({ id }: Props) => {
             <TaskDetailsForm
               defaultValues={task || undefined}
               onSubmit={handleSubmit}
-              actions={({ isDirty, isSubmitting }) => (
+              actions={({ isDirty }) => (
                 <div className="flex justify-between items-center">
                   <Button
                     type="button"
@@ -60,8 +35,12 @@ export const TaskPage = ({ id }: Props) => {
                     ← Back to Tasks
                   </Button>
                   {isDirty && (
-                    <Button type="submit" disabled={isSubmitting}>
-                      {isSubmitting ? "Saving..." : "Save Changes"}
+                    <Button
+                      isLoading={isSubmitting}
+                      disabled={isSubmitting}
+                      type="submit"
+                    >
+                      Save Changes
                     </Button>
                   )}
                 </div>
