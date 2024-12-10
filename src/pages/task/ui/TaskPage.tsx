@@ -7,7 +7,7 @@ import { tasksApi } from "@/entities/task/api/tasksApi";
 import { TaskDetailsForm } from "@/features/task-form";
 import { Task } from "@prisma/client";
 import type { TaskFormValues } from "@/features/task-form";
-import { Button } from "@/shared/ui";
+import { Button, Card } from "@/shared/ui";
 
 interface Props {
   id: string;
@@ -47,27 +47,29 @@ export const TaskPage = ({ id }: Props) => {
           <Timer />
         </div>
         <div className="w-1/2">
-          <TaskDetailsForm
-            defaultValues={task || undefined}
-            onSubmit={handleSubmit}
-            actions={({ isDirty, isSubmitting }) => (
-              <div className="flex justify-between items-center">
-                <Button
-                  type="button"
-                  variant="link"
-                  className="text-gray-600 hover:text-gray-800"
-                  onClick={() => router.push("/")}
-                >
-                  ← Back to Tasks
-                </Button>
-                {isDirty && (
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Saving..." : "Save Changes"}
+          <Card>
+            <TaskDetailsForm
+              defaultValues={task || undefined}
+              onSubmit={handleSubmit}
+              actions={({ isDirty, isSubmitting }) => (
+                <div className="flex justify-between items-center">
+                  <Button
+                    type="button"
+                    variant="link"
+                    className="text-gray-600 hover:text-gray-800"
+                    onClick={() => router.push("/")}
+                  >
+                    ← Back to Tasks
                   </Button>
-                )}
-              </div>
-            )}
-          />
+                  {isDirty && (
+                    <Button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? "Saving..." : "Save Changes"}
+                    </Button>
+                  )}
+                </div>
+              )}
+            />
+          </Card>
         </div>
       </div>
     </div>

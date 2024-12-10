@@ -68,7 +68,7 @@ export const TaskDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow"
+        className="space-y-4 p-6 rounded-lg shadow"
       >
         <FormFieldControlled
           control={form.control}

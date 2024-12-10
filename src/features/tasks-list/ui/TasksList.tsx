@@ -1,7 +1,8 @@
 import { Button, Card } from "@/shared/ui";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTasksListStore } from "../model/store";
 import { TaskEditor } from "./TaskEditor";
+import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import Link from "next/link";
 import { Task } from "@/entities/task/ui/Task";
 
@@ -12,9 +13,22 @@ export const TasksList = () => {
   const fetchTasks = useTasksListStore((state) => state.fetchTasks);
   const deleteTask = useTasksListStore((state) => state.deleteTask);
 
+  const [taskIdToDelete, setTaskIdToDelete] = useState<string | null>(null);
+
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
+
+  const handleDeleteClick = (taskId: string) => {
+    setTaskIdToDelete(taskId);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (taskIdToDelete) {
+      await deleteTask(taskIdToDelete);
+      setTaskIdToDelete(null);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -43,11 +57,16 @@ export const TasksList = () => {
             href={`/tasks/${task.id}`}
             className="block transition-transform hover:scale-[1.02]"
           >
-            <Task task={task} />
+            <Task task={task} onDeleteClick={handleDeleteClick} />
           </Link>
         ))}
       </div>
       <TaskEditor />
+      <DeleteTaskDialog
+        isOpen={taskIdToDelete !== null}
+        onClose={() => setTaskIdToDelete(null)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 };
