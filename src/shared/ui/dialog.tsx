@@ -111,7 +111,7 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 export interface ModalProps extends React.PropsWithChildren {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
 }
 
 export const Dialog = ({ children, isOpen, onClose, title }: ModalProps) => {

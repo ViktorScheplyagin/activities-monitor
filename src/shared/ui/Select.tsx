@@ -149,14 +149,15 @@ SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 // Compatibility layer for existing usage
 interface SelectOption {
   label: string;
-  value: number;
+  value: string | number;
 }
 
 interface SelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "onChange"> {
   options: SelectOption[];
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: SelectOption["value"]) => void;
+  value: SelectOption["value"];
+  placeholder: string;
   testId: string;
 }
 
@@ -166,12 +167,13 @@ export const Select = ({
   className,
   onChange,
   value,
+  placeholder,
   testId,
 }: SelectProps) => {
   return (
     <SelectRoot onValueChange={onChange} value={value}>
       <SelectTrigger className={className} data-testid={testId}>
-        <SelectValue placeholder={value ?? "Select duration"} />
+        <SelectValue placeholder={placeholder || "Select option"} />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
