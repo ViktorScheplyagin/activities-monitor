@@ -1,9 +1,9 @@
 import { Button, Card } from "@/shared/ui";
-import { TaskEditor } from "./TaskEditor";
 import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import Link from "next/link";
 import { Task } from "@/entities/task/ui/Task";
 import { useTasksList } from "../model/use-tasks-list";
+import { CreateTaskDialog } from "./CreateTaskDialog";
 
 export const TasksList = () => {
   const {
@@ -38,12 +38,16 @@ export const TasksList = () => {
           </Card>
         )}
         {tasks.map((task) => (
-          <Link key={task.id} href={`/tasks/${task.id}`} className="block">
+          <Link
+            key={task.id}
+            href={`/tasks/${task.id}`}
+            className="block transition-transform hover:scale-[1.02]"
+          >
             <Task task={task} onDeleteClick={handleDeleteClick} />
           </Link>
         ))}
       </div>
-      <TaskEditor />
+      <CreateTaskDialog />
       <DeleteTaskDialog
         isOpen={taskIdToDelete !== null}
         onClose={handleDeleteCancel}
