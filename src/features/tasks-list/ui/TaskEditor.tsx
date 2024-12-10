@@ -1,77 +1,34 @@
-import { Button, Dialog } from "@/shared/ui";
+import { Dialog } from "@/shared/ui/dialog";
 import { useTasksListStore } from "../model/store";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { TaskFormValues, taskFormSchema } from "../model/schema";
-import { Form } from "@/shared/ui/form";
-import { FormField } from "./FormField";
-import { useEffect } from "react";
+import { TaskDetailsForm } from "@/features/task-form";
+import type { TaskFormValues } from "@/features/task-form";
 
 export const TaskEditor = () => {
-  const isEditorOpen = useTasksListStore((state) => state.isEditorOpen);
-  const isLoading = useTasksListStore((state) => state.isLoading);
+  const isOpen = useTasksListStore((state) => state.isEditorOpen);
+  const editingTask = useTasksListStore((state) => state.editingTask);
   const closeEditor = useTasksListStore((state) => state.closeEditor);
   const createTask = useTasksListStore((state) => state.createTask);
   const editTask = useTasksListStore((state) => state.editTask);
-  const editingTask = useTasksListStore((state) => state.editingTask);
 
-  const form = useForm<TaskFormValues>({
-    resolver: zodResolver(taskFormSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-    },
-  });
-
-  useEffect(() => {
-    if (isEditorOpen) {
-      form.reset({
-        title: editingTask?.title || "",
-        description: editingTask?.description || "",
-      });
-    }
-  }, [isEditorOpen]);
-
-  const onSubmit = (data: TaskFormValues) => {
+  const handleSubmit = async (values: TaskFormValues) => {
     if (editingTask) {
-      editTask(editingTask.id, data);
+      await editTask(editingTask.id, values);
     } else {
-      createTask(data);
+      await createTask(values);
     }
   };
 
   return (
-    <Dialog
-      isOpen={isEditorOpen}
-      onClose={closeEditor}
-      title={editingTask ? "Edit Task" : "Create New Task"}
-    >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField control={form.control} name="title" label="Task name" />
-
-          <FormField
-            control={form.control}
-            name="description"
-            label="Description"
-            type="textarea"
-          />
-
-          <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              onClick={closeEditor}
-              disabled={isLoading}
-              type="button"
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading} isLoading={isLoading}>
-              Save Changes
-            </Button>
-          </div>
-        </form>
-      </Form>
+    <Dialog isOpen={isOpen} onClose={closeEditor}>
+      <TaskDetailsForm
+        defaultValues={editingTask || undefined}
+        onSubmit={handleSubmit}
+        defaultActions={{
+          onCancel: closeEditor,
+          submitText: editingTask ? "Save Changes" : "Create Task",
+          cancelText: "Cancel",
+        }}
+      />
     </Dialog>
   );
 };

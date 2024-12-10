@@ -1,6 +1,6 @@
 import { TaskData } from "@/entities/task";
 import { create } from "zustand";
-import { tasksApi } from "../api/tasksApi";
+import { tasksApi } from "@/entities/task";
 
 interface TasksListStore {
   tasks: TaskData[];
@@ -25,7 +25,7 @@ export const useTasksListStore = create<TasksListStore>((set) => ({
   createTask: async (taskData) => {
     try {
       set({ isLoading: true });
-      const newTask = await tasksApi.createTask(taskData);
+      const newTask = await tasksApi.create(taskData);
       set((state) => ({
         tasks: [...state.tasks, newTask],
         isEditorOpen: false,
@@ -40,7 +40,7 @@ export const useTasksListStore = create<TasksListStore>((set) => ({
   fetchTasks: async () => {
     try {
       set({ isLoading: true });
-      const tasks = await tasksApi.fetchTasks();
+      const tasks = await tasksApi.getAll();
       set({ tasks, isLoading: false });
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
@@ -50,7 +50,7 @@ export const useTasksListStore = create<TasksListStore>((set) => ({
   editTask: async (id, taskData) => {
     try {
       set({ isLoading: true });
-      const updatedTask = await tasksApi.editTask(id, taskData);
+      const updatedTask = await tasksApi.update(id, taskData);
       set((state) => ({
         tasks: state.tasks.map((task) => (task.id === id ? updatedTask : task)),
         isEditorOpen: false,
@@ -65,7 +65,7 @@ export const useTasksListStore = create<TasksListStore>((set) => ({
   deleteTask: async (id) => {
     try {
       set({ isLoading: true });
-      await tasksApi.deleteTask(id);
+      await tasksApi.delete(id);
       set((state) => ({
         tasks: state.tasks.filter((task) => task.id !== id),
         isLoading: false,

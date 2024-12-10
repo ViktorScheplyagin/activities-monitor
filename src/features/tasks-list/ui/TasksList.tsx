@@ -1,16 +1,11 @@
-import { Task } from "@/entities/task";
 import { Button, Card } from "@/shared/ui";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTasksListStore } from "../model/store";
 import { TaskEditor } from "./TaskEditor";
+import Link from "next/link";
+import { Task } from "@/entities/task/ui/Task";
 
-interface Props {
-  onFocusChange: (id: string | null) => void;
-}
-
-export const TasksList = ({ onFocusChange }: Props) => {
-  const [focusedTaskId, setFocusedTaskId] = useState<string | null>(null);
-
+export const TasksList = () => {
   const tasks = useTasksListStore((state) => state.tasks);
   const isLoading = useTasksListStore((state) => state.isLoading);
   const openEditor = useTasksListStore((state) => state.openEditor);
@@ -20,29 +15,6 @@ export const TasksList = ({ onFocusChange }: Props) => {
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
-
-  useEffect(() => {
-    onFocusChange(focusedTaskId);
-  }, [focusedTaskId, onFocusChange]);
-
-  const handleTaskClick = (id: string) => {
-    const newId = id === focusedTaskId ? null : id;
-    setFocusedTaskId(newId);
-  };
-
-  const handleEditTask = (id: string) => {
-    const task = tasks.find((t) => t.id === id);
-    if (task) {
-      openEditor(task);
-    }
-  };
-
-  const handleDeleteTask = async (id: string) => {
-    await deleteTask(id);
-    if (focusedTaskId === id) {
-      setFocusedTaskId(null);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -57,7 +29,7 @@ export const TasksList = ({ onFocusChange }: Props) => {
       <div className="mb-4 flex justify-end">
         <Button onClick={() => openEditor()}>New Task</Button>
       </div>
-      <div data-testid="tasks-list">
+      <div data-testid="tasks-list" className="space-y-4">
         {tasks.length === 0 && (
           <Card>
             <div className="text-center text-2xl font-bold text-gray-500 dark:text-gray-400">
@@ -66,14 +38,13 @@ export const TasksList = ({ onFocusChange }: Props) => {
           </Card>
         )}
         {tasks.map((task) => (
-          <Task
-            onClick={handleTaskClick}
-            onEdit={handleEditTask}
-            onDelete={handleDeleteTask}
+          <Link
             key={task.id}
-            {...task}
-            isFocused={task.id === focusedTaskId}
-          />
+            href={`/tasks/${task.id}`}
+            className="block transition-transform hover:scale-[1.02]"
+          >
+            <Task task={task} />
+          </Link>
         ))}
       </div>
       <TaskEditor />

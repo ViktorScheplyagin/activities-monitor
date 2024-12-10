@@ -1,5 +1,5 @@
 import { useTasksListStore } from "./store";
-import { tasksApi } from "../api/tasksApi";
+import { tasksApi } from "@/entities/task";
 import { faker } from "@faker-js/faker";
 
 jest.mock("../api/tasksApi", () => ({
@@ -71,12 +71,12 @@ describe("TasksListStore", () => {
     };
 
     beforeEach(() => {
-      (tasksApi.createTask as jest.Mock).mockResolvedValue(mockCreatedTask);
+      (tasksApi.create as jest.Mock).mockResolvedValue(mockCreatedTask);
     });
 
     it("should create a new task", async () => {
       await useTasksListStore.getState().createTask(newTaskData);
-      expect(tasksApi.createTask).toHaveBeenCalledWith(newTaskData);
+      expect(tasksApi.create).toHaveBeenCalledWith(newTaskData);
     });
 
     it("should close creator after successful task creation", async () => {
@@ -105,7 +105,7 @@ describe("TasksListStore", () => {
 
     it("should handle task creation error", async () => {
       const error = new Error("Failed to create task");
-      (tasksApi.createTask as jest.Mock).mockRejectedValue(error);
+      (tasksApi.create as jest.Mock).mockRejectedValue(error);
 
       const consoleSpy = jest.spyOn(console, "error").mockImplementation();
       await useTasksListStore.getState().createTask(newTaskData);
