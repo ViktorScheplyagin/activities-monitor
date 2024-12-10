@@ -16,7 +16,7 @@ export const Task = ({ task, className, onDeleteClick }: Props) => {
 
   return (
     <Card
-      className={`cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 ${className}`}
+      className={`cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${className}`}
     >
       <div className="p-4 flex justify-between items-start">
         <div>
