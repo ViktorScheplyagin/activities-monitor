@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Select } from "@/shared/ui";
+import { Button } from "@/shared/ui";
+import { Select } from "./Select";
 import { TIMER_OPTIONS } from "../constants/timerOptions";
 import { useStore } from "../model/store";
 
@@ -23,7 +24,7 @@ export const Controls: React.FC = () => {
           testId="work"
           options={TIMER_OPTIONS.work}
           value={String(workDuration)}
-          onChange={(value: string) => {
+          onChange={(value) => {
             changeWorkDuration(Number(value));
           }}
         />
@@ -31,7 +32,7 @@ export const Controls: React.FC = () => {
           testId="break"
           options={TIMER_OPTIONS.break}
           value={String(breakDuration)}
-          onChange={(value: string) => {
+          onChange={(value) => {
             changeBreakDuration(Number(value));
           }}
         />
