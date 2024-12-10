@@ -1,13 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Textarea,
-  Button,
-  Input,
-  Form,
-  FormFieldControlled,
-} from "@/shared/ui";
-
+import { Textarea, Button, Input, Form } from "@/shared/ui";
+import { FormField } from "./FormField";
 import { taskSchema, type TaskFormValues } from "../model/schema";
 import { useEffect } from "react";
 
@@ -70,7 +64,7 @@ export const TaskDetailsForm = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 p-6 rounded-lg shadow"
       >
-        <FormFieldControlled
+        <FormField
           control={form.control}
           name="title"
           label="Title"
@@ -78,7 +72,7 @@ export const TaskDetailsForm = ({
           inputProps={{ placeholder: "Task title" }}
         />
 
-        <FormFieldControlled
+        <FormField
           control={form.control}
           name="description"
           label="Description"
