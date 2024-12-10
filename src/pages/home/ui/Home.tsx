@@ -6,22 +6,9 @@ import {
   requestNotificationPermission,
   showNotification,
 } from "@/features/notification";
-import { Timer, useTimerStore } from "@/features/timer";
-import { useHomePageStore } from "../model/store";
-
-/**
- * TODO:
- * time spent on a task should be displayed in the task
- *
- * later, remove this behaviour and make a button instead of click on a task
- * add another button to open task menu (edit, delete, etc)
- * MSKR IT WITH TDD
- */
+import { useTimerStore } from "@/features/timer";
 
 export const HomePage: React.FC = () => {
-  const focusedTask = useHomePageStore((state) => state.focusedTask);
-  const setFocusedTask = useHomePageStore((state) => state.setFocusedTask);
-
   const mode = useTimerStore((state) => state.mode);
 
   useEffect(() => {
@@ -33,13 +20,12 @@ export const HomePage: React.FC = () => {
   }, [mode]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
       <Header />
-      <div className="w-1/3">
-        <Timer title={focusedTask?.title} />
-      </div>
-      <div className="w-1/2">
-        <TasksList onFocusChange={setFocusedTask} />
+      <div className="flex-1 flex justify-center p-8">
+        <div className="w-2/3">
+          <TasksList />
+        </div>
       </div>
     </div>
   );
