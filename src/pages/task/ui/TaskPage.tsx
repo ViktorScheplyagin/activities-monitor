@@ -2,7 +2,6 @@
 import { Timer } from "@/features/timer";
 import { TaskDetailsForm } from "@/features/task-form";
 import { Button, Card } from "@/shared/ui";
-import { useRouter } from "next/navigation";
 import { useTask } from "../model/use-task";
 
 interface Props {
@@ -10,7 +9,6 @@ interface Props {
 }
 
 export const TaskPage = ({ id }: Props) => {
-  const router = useRouter();
   const { task, handleSubmit, isSubmitting } = useTask(id);
 
   return (
@@ -24,27 +22,17 @@ export const TaskPage = ({ id }: Props) => {
             <TaskDetailsForm
               defaultValues={task || undefined}
               onSubmit={handleSubmit}
-              actions={({ isDirty }) => (
-                <div className="flex justify-between items-center">
+              actions={({ isDirty }) =>
+                isDirty && (
                   <Button
-                    type="button"
-                    variant="link"
-                    className="text-gray-600 hover:text-gray-800"
-                    onClick={() => router.push("/")}
+                    isLoading={isSubmitting}
+                    disabled={isSubmitting}
+                    type="submit"
                   >
-                    ← Back to Tasks
+                    Save Changes
                   </Button>
-                  {isDirty && (
-                    <Button
-                      isLoading={isSubmitting}
-                      disabled={isSubmitting}
-                      type="submit"
-                    >
-                      Save Changes
-                    </Button>
-                  )}
-                </div>
-              )}
+                )
+              }
             />
           </Card>
         </div>
