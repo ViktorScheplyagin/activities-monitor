@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea, Button, Input, Form } from "@/shared/ui";
+import { Textarea, Input, Form } from "@/shared/ui";
 import { FormField } from "./FormField";
 import { taskSchema, type TaskFormValues } from "../model/schema";
 import { useEffect } from "react";
+import { DefaultActions } from "./DefaultActions";
 
 interface Props {
   defaultValues?: Partial<TaskFormValues>;
@@ -13,7 +14,6 @@ interface Props {
     isDirty: boolean;
     isSubmitting: boolean;
   }) => React.ReactNode;
-  // Default actions configuration (optional)
   defaultActions?: {
     onCancel?: () => void;
     submitText?: string;
@@ -41,27 +41,6 @@ export const TaskDetailsForm = ({
     }
   }, [defaultValues]);
 
-  const renderDefaultActions = () => (
-    <div className="flex justify-end gap-4">
-      {defaultActions?.onCancel && (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={defaultActions.onCancel}
-        >
-          {defaultActions.cancelText || "Cancel"}
-        </Button>
-      )}
-      <Button
-        type="submit"
-        disabled={form.formState.isSubmitting}
-        isLoading={form.formState.isSubmitting}
-      >
-        {defaultActions?.submitText || "Save Changes"}
-      </Button>
-    </div>
-  );
-
   return (
     <Form {...form}>
       <form
@@ -87,12 +66,19 @@ export const TaskDetailsForm = ({
           }}
         />
 
-        {actions
-          ? actions({
-              isDirty: form.formState.isDirty,
-              isSubmitting: form.formState.isSubmitting,
-            })
-          : renderDefaultActions()}
+        {actions ? (
+          actions({
+            isDirty: form.formState.isDirty,
+            isSubmitting: form.formState.isSubmitting,
+          })
+        ) : (
+          <DefaultActions
+            onCancel={defaultActions?.onCancel}
+            cancelText={defaultActions?.cancelText}
+            submitText={defaultActions?.submitText}
+            isSubmitting={form.formState.isSubmitting}
+          />
+        )}
       </form>
     </Form>
   );
