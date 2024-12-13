@@ -11,6 +11,7 @@ interface UpdateTaskData {
   title?: string;
   description?: string;
   status?: TaskStatus;
+  time?: number;
 }
 
 export const tasksApi = {
