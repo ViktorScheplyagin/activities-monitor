@@ -6,22 +6,24 @@ import { useTask } from "../model/use-task";
 import { Timer } from "@/features/timer";
 import { DeleteTaskDialog } from "@/features/tasks-list";
 import { useState } from "react";
-import { useRouter } from "next/dist/client/components/navigation";
+import { useTimerNotification } from "@/features/notification";
 
 interface Props {
   id: string;
 }
 
 export const TaskPage = ({ id }: Props) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { task, handleSubmit, handleDelete, isSubmitting, isDeleting } =
     useTask(id);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const router = useRouter();
+
+  useTimerNotification({
+    title: "Pomodoro завершён!",
+  });
 
   const onDeleteConfirm = async () => {
     await handleDelete();
     setIsDeleteDialogOpen(false);
-    router.push("/");
   };
 
   return (
