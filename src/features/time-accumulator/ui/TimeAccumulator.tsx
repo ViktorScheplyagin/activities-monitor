@@ -29,8 +29,6 @@ export const TimeAccumulator = ({ taskId, initialTime = 0 }: Props) => {
   }, [timeLeft, mode]);
 
   return (
-    <div className="text-center text-gray-500">
-      Total time: {formatSeconds(totalTime)}
-    </div>
+    <div className="text-gray-500">Total time: {formatSeconds(totalTime)}</div>
   );
 };
