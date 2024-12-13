@@ -1,6 +1,7 @@
 import { Card } from "@/shared/ui";
 import { TaskData } from "../api/dto/task";
 import { Trash2 } from "lucide-react";
+import { formatSeconds } from "../lib/formatSeconds";
 
 interface Props {
   task: TaskData;
@@ -32,6 +33,9 @@ export const Task = ({ task, className, onDeleteClick }: Props) => {
             <Trash2 className="h-5 w-5" />
           </button>
         )}
+      </div>
+      <div className="p-4 text-gray-500 dark:text-gray-400">
+        Time spent: {formatSeconds(task.time)}
       </div>
     </Card>
   );
