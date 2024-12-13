@@ -1,2 +1,2 @@
 export { Timer } from "./ui/Timer";
-export { useStore as useTimerStore } from "./model/store";
+export { useTimerStore as useTimerStore } from "./model/store";

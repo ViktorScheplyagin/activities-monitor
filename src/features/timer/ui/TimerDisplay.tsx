@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
+import { TimerMode } from "../model/types";
+
 interface TimerProps {
   timeLeft: number;
-  mode: "work" | "break";
+  mode: TimerMode;
   className?: string;
 }
 
@@ -19,7 +21,8 @@ export const TimerDisplay: React.FC<TimerProps> = ({
         "text-2xl font-bold",
         {
           "text-red-500 dark:text-red-400": mode === "work",
-          "text-green-500 dark:text-green-400": mode !== "work",
+          "text-green-500 dark:text-green-400": mode === "break",
+          "text-blue-500 dark:text-blue-400": mode === "longBreak",
         },
         className
       )}

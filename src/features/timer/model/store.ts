@@ -1,53 +1,63 @@
-import { TIMER_OPTIONS } from "../constants/timerOptions";
 import { create } from "zustand";
+import { TimerMode } from "./types";
+import { TIMER_OPTIONS } from "../constants/timerOptions";
 
-export type TimerMode = "work" | "break";
-
-interface TimerStore {
+interface TimerState {
+  timeLeft: number;
   mode: TimerMode;
   isRunning: boolean;
-  timeLeft: number;
   workDuration: number;
   breakDuration: number;
+  longBreakDuration: number;
+  sessionsCount: number;
+  setTimeLeft: (time: number) => void;
   setMode: (mode: TimerMode) => void;
   setIsRunning: (isRunning: boolean) => void;
-  setTimeLeft: (timeLeft: number) => void;
-  toggleTimer: () => void;
+  setWorkDuration: (duration: number) => void;
+  setBreakDuration: (duration: number) => void;
+  setLongBreakDuration: (duration: number) => void;
+  incrementSession: () => void;
+  resetSession: () => void;
   resetTimer: () => void;
-  changeWorkDuration: (duration: number) => void;
-  changeBreakDuration: (duration: number) => void;
 }
 
-export const useStore = create<TimerStore>((set, get) => ({
+export const useTimerStore = create<TimerState>((set) => ({
   mode: "work",
   isRunning: false,
-  timeLeft: TIMER_OPTIONS.work[0].value,
   workDuration: TIMER_OPTIONS.work[0].value,
   breakDuration: TIMER_OPTIONS.break[0].value,
+  longBreakDuration: TIMER_OPTIONS.longBreak[0].value,
+  timeLeft: TIMER_OPTIONS.work[0].value,
+  sessionsCount: 0,
+  setTimeLeft: (time) => set({ timeLeft: time }),
   setMode: (mode) => set({ mode }),
   setIsRunning: (isRunning) => set({ isRunning }),
-  setTimeLeft: (timeLeft) => set({ timeLeft }),
-  toggleTimer: () => set((state) => ({ isRunning: !state.isRunning })),
+  setWorkDuration: (duration) => set({ workDuration: duration }),
+  setBreakDuration: (duration) => set({ breakDuration: duration }),
+  setLongBreakDuration: (duration) => set({ longBreakDuration: duration }),
+  incrementSession: () => {
+    console.log("incrementSession");
+    set((state) => ({ sessionsCount: state.sessionsCount + 1 }));
+  },
+  resetSession: () => set({ sessionsCount: 0 }),
   resetTimer: () =>
-    set({
-      isRunning: false,
-      mode: "work",
-      timeLeft: get().workDuration,
+    set((state) => {
+      let timeLeft;
+      switch (state.mode) {
+        case "work":
+          timeLeft = state.workDuration;
+          break;
+        case "break":
+          timeLeft = state.breakDuration;
+          break;
+        case "longBreak":
+          timeLeft = state.longBreakDuration;
+          break;
+      }
+      return {
+        ...state,
+        timeLeft,
+        isRunning: false,
+      };
     }),
-  changeWorkDuration: (duration) => {
-    const { mode, timeLeft } = get();
-    set({
-      workDuration: duration,
-      timeLeft: mode === "work" ? duration : timeLeft,
-      isRunning: false,
-    });
-  },
-  changeBreakDuration: (duration) => {
-    const { mode, timeLeft } = get();
-    set({
-      breakDuration: duration,
-      timeLeft: mode === "break" ? duration : timeLeft,
-      isRunning: false,
-    });
-  },
 }));

@@ -1,18 +1,41 @@
 import { useEffect } from "react";
-import { useStore } from "./store";
+import { useTimerStore } from "./store";
 
-export const useTimerWorkerSetup = () => {
-  const mode = useStore((state) => state.mode);
-  const isRunning = useStore((state) => state.isRunning);
-  const timeLeft = useStore((state) => state.timeLeft);
-  const workDuration = useStore((state) => state.workDuration);
-  const breakDuration = useStore((state) => state.breakDuration);
-  const setMode = useStore((state) => state.setMode);
-  const setTimeLeft = useStore((state) => state.setTimeLeft);
+export const useTimerLogicSetup = () => {
+  const setTimeLeft = useTimerStore((state) => state.setTimeLeft);
+  const setMode = useTimerStore((state) => state.setMode);
+  const incrementSession = useTimerStore((state) => state.incrementSession);
+  const mode = useTimerStore((state) => state.mode);
+  const isRunning = useTimerStore((state) => state.isRunning);
+  const timeLeft = useTimerStore((state) => state.timeLeft);
+  const workDuration = useTimerStore((state) => state.workDuration);
+  const breakDuration = useTimerStore((state) => state.breakDuration);
+  const longBreakDuration = useTimerStore((state) => state.longBreakDuration);
+  const sessionsCount = useTimerStore((state) => state.sessionsCount);
+
+  const handleModeTransition = () => {
+    console.log("handleModeTransition", mode, sessionsCount);
+    switch (mode) {
+      case "work":
+        if (sessionsCount % 4 === 0 && sessionsCount > 0) {
+          setMode("longBreak");
+          setTimeLeft(longBreakDuration);
+        } else {
+          setMode("break");
+          setTimeLeft(breakDuration);
+        }
+        break;
+      case "break":
+      case "longBreak":
+        setMode("work");
+        setTimeLeft(workDuration);
+        break;
+    }
+  };
 
   useEffect(() => {
     const timeWorker = new Worker(
-      new URL("@/features/timer/workers/timeWorker.ts", import.meta.url)
+      new URL("../workers/timeWorker.ts", import.meta.url)
     );
 
     timeWorker.onmessage = () => {
@@ -22,8 +45,10 @@ export const useTimerWorkerSetup = () => {
     if (isRunning && timeLeft > 0) {
       timeWorker.postMessage({ command: "start", interval: 1000 });
     } else if (timeLeft === 0) {
-      setMode(mode === "work" ? "break" : "work");
-      setTimeLeft(mode === "work" ? breakDuration : workDuration);
+      handleModeTransition();
+      if (mode === "work") {
+        incrementSession();
+      }
     }
 
     return () => {
