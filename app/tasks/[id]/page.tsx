@@ -1,5 +1,5 @@
-import { TaskPage } from "@/pages/task";
+import { TaskPage as TaskPageComponent } from "@/pages/task";
 
-export default function Page({ params }: { params: { id: string } }) {
-  return <TaskPage id={params.id} />;
+export default function TaskPage({ params }: { params: { id: string } }) {
+  return <TaskPageComponent id={params.id} />;
 }
