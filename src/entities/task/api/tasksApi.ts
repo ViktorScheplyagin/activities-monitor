@@ -1,5 +1,6 @@
 import { Task, TaskStatus } from "@prisma/client";
 import { api } from "@/shared/api/axios";
+import { SearchParams } from "../model/types";
 
 interface CreateTaskData {
   title: string;
@@ -15,8 +16,16 @@ interface UpdateTaskData {
 }
 
 export const tasksApi = {
-  getAll: async (): Promise<Task[]> => {
-    const { data } = await api.get("/tasks");
+  getAll: async (searchParams?: SearchParams): Promise<Task[]> => {
+    const params = new URLSearchParams();
+    if (searchParams?.query) {
+      params.set("q", searchParams.query);
+    }
+    if (searchParams?.filters) {
+      params.set("in", searchParams.filters.join(","));
+    }
+
+    const { data } = await api.get(`/tasks?${params}`);
     return data;
   },
 
