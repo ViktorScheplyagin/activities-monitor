@@ -1,9 +1,18 @@
 import { prisma } from "@/shared/api/database";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get("q") || "";
+
   try {
     const tasks = await prisma.task.findMany({
+      where: {
+        OR: [
+          { title: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
+        ],
+      },
       orderBy: {
         createdAt: "desc",
       },

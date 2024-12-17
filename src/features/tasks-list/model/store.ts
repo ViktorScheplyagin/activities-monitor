@@ -1,4 +1,4 @@
-import { TaskData } from "@/entities/task";
+import { SearchParams, TaskData } from "@/entities/task";
 import { create } from "zustand";
 import { tasksApi } from "@/entities/task";
 
@@ -10,7 +10,7 @@ interface TasksListStore {
   openEditor: (task?: TaskData) => void;
   closeEditor: () => void;
   createTask: (task: Omit<TaskData, "id" | "status" | "time">) => Promise<void>;
-  fetchTasks: () => Promise<void>;
+  fetchTasks: (searchParams?: SearchParams) => Promise<void>;
   editTask: (id: string, task: Partial<Omit<TaskData, "id">>) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
 }
@@ -37,10 +37,10 @@ export const useTasksListStore = create<TasksListStore>((set) => ({
       set({ isLoading: false });
     }
   },
-  fetchTasks: async () => {
+  fetchTasks: async (searchParams) => {
     try {
       set({ isLoading: true });
-      const tasks = await tasksApi.getAll();
+      const tasks = await tasksApi.getAll(searchParams);
       set({ tasks, isLoading: false });
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
