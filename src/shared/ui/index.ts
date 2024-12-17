@@ -7,3 +7,4 @@ export { Label } from "./label";
 export { Textarea } from "./textarea";
 export { Popover } from "./popover";
 export * from "./form";
+export { Checkbox } from "./checkbox";
