@@ -55,5 +55,6 @@ export const useTimerLogicSetup = () => {
       timeWorker.postMessage({ command: "stop" });
       timeWorker.terminate();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, timeLeft, mode, workDuration, breakDuration]);
 };

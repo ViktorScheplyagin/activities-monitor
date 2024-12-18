@@ -20,6 +20,7 @@ export const useTasksList = () => {
     }, 300);
 
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, searchFilters]);
 
   const handleDeleteClick = (taskId: string) => {

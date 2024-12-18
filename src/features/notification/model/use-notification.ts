@@ -21,5 +21,6 @@ export const useTimerNotification = (config: NotificationConfig) => {
     } else if (mode === "work") {
       showNotification(config.title, config.options);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 };

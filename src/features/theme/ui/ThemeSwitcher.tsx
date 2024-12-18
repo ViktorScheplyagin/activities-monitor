@@ -13,6 +13,7 @@ export const ThemeSwitcher = ({ className }: Props) => {
 
   useEffect(() => {
     setTheme(theme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

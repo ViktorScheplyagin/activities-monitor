@@ -20,12 +20,14 @@ export const TimeAccumulator = ({ taskId, initialTime = 0 }: Props) => {
 
   useEffect(() => {
     setTotalTime(initialTime);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTime]);
 
   useEffect(() => {
     if (timeLeft === 0 && mode === "work") {
       updateAccumulatedTime(taskId, totalTime + workDuration);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft, mode]);
 
   return (

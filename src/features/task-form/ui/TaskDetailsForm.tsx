@@ -39,6 +39,7 @@ export const TaskDetailsForm = ({
     if (defaultValues) {
       form.reset(defaultValues);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues]);
 
   return (
