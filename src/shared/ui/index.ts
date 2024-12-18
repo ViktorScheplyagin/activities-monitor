@@ -6,7 +6,7 @@ export { Label } from "./label";
 export { Textarea } from "./textarea";
 export { Popover } from "./popover";
 export { Checkbox } from "./checkbox";
-export * from "./card";
+export * from "./Card";
 export * from "./form";
 export * from "./Select";
 export * from "./alert-dialog";
