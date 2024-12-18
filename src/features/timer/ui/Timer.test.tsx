@@ -12,7 +12,7 @@ import { useTimerStore } from "../model/store";
 class WorkerMock implements Worker {
   onmessage: ((this: Worker, ev: MessageEvent) => void) | null = null;
   onmessageerror: ((this: Worker, ev: MessageEvent) => void) | null = null;
-  onerror: ((this: AbstractWorker, ev: ErrorEvent) => any) | null = null;
+  onerror: ((this: AbstractWorker, ev: ErrorEvent) => unknown) | null = null;
 
   postMessage(): void {
     this.onmessage?.({ data: "tick" } as MessageEvent);

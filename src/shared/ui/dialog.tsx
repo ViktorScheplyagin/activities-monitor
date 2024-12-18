@@ -108,13 +108,13 @@ const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
-export interface ModalProps extends React.PropsWithChildren {
+interface ModalProps extends React.PropsWithChildren {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
 }
 
-export const Dialog = ({ children, isOpen, onClose, title }: ModalProps) => {
+const Dialog = ({ children, isOpen, onClose, title }: ModalProps) => {
   return (
     <DialogRoot open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="w-96">
@@ -126,3 +126,17 @@ export const Dialog = ({ children, isOpen, onClose, title }: ModalProps) => {
     </DialogRoot>
   );
 };
+
+export {
+  Dialog,
+  DialogTrigger,
+  DialogClose,
+  DialogPortal,
+  DialogOverlay,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+};
+export type { ModalProps };

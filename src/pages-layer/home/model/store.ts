@@ -1,4 +1,5 @@
 import { TaskData } from "@/entities/task";
+import { TaskStatus } from "@prisma/client";
 import { create } from "zustand";
 
 export type HomePageStore = {
@@ -12,21 +13,21 @@ const mockTasks: TaskData[] = [
   {
     id: "2",
     title: "Write unit tests",
-    status: "todo",
+    status: TaskStatus.TODO,
     description: "Create test coverage for core components",
     time: 0,
   },
   {
     id: "3",
     title: "Update documentation",
-    status: "completed",
+    status: TaskStatus.COMPLETED,
     description: "Update README with new API endpoints",
     time: 300, // 5 minutes
   },
   {
     id: "4",
     title: "Update tests",
-    status: "paused",
+    status: TaskStatus.PAUSED,
     description: "Update README with new API endpoints",
     time: 300, // 5 minutes
   },

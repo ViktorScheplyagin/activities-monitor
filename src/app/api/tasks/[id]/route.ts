@@ -15,6 +15,7 @@ export async function GET(
     }
 
     return NextResponse.json(task);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch task" },

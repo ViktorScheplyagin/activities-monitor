@@ -17,6 +17,7 @@ export const useTask = (id: string) => {
       try {
         const taskData = await tasksApi.getById(id);
         setTask(taskData);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         router.push("/");
       }
