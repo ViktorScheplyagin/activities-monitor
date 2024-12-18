@@ -4,8 +4,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/select";
-import { Label } from "@/shared/ui/label";
+  Label,
+} from "@/shared/ui";
 import { cn } from "@/lib/utils";
 
 interface SelectOption {

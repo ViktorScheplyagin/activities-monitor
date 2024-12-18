@@ -1,10 +1,12 @@
 export { Button } from "./button";
 export { Dialog } from "./dialog";
 export { Select } from "./select";
-export { Card } from "./card";
 export { Input } from "./input";
 export { Label } from "./label";
 export { Textarea } from "./textarea";
 export { Popover } from "./popover";
-export * from "./form";
 export { Checkbox } from "./checkbox";
+export * from "./card";
+export * from "./form";
+export * from "./select";
+export * from "./alert-dialog";

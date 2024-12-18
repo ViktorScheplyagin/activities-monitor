@@ -3,12 +3,7 @@ import { TimerDisplay } from "./TimerDisplay";
 import { Controls } from "./Controls";
 import { useTimerLogicSetup } from "../model/timer";
 import { useTimerStore } from "../model/store";
-import {
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/card";
+import { CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui";
 
 interface Props {
   title?: string;

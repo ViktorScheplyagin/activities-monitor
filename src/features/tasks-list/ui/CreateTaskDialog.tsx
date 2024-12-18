@@ -1,9 +1,8 @@
-import { Dialog } from "@/shared/ui/dialog";
 import { useTasksListStore } from "../model/store";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form, Input, Label, Textarea } from "@/shared/ui";
-import { FormField } from "@/shared/ui/form";
+import { FormField, Dialog } from "@/shared/ui";
 import { taskFormSchema, type TaskFormValues } from "../model/schema";
 
 export const CreateTaskDialog = () => {

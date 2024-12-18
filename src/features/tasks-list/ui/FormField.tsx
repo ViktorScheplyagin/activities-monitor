@@ -1,11 +1,12 @@
-import { Input, Textarea } from "@/shared/ui";
 import {
+  Input,
+  Textarea,
   FormControl,
   FormField as RootFormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shared/ui/form";
+} from "@/shared/ui";
 import { TaskFormValues } from "../model/schema";
 import { Control } from "react-hook-form";
 
