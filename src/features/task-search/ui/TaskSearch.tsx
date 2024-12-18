@@ -1,7 +1,7 @@
 import { Checkbox, Input, Label } from "@/shared/ui";
 import { useTaskSearch } from "../model/use-task-search";
 
-export const TaskSearch = () => {
+const TaskSearch = () => {
   const { query, filters, setQuery, toggleFilter } = useTaskSearch();
 
   return (
@@ -32,3 +32,5 @@ export const TaskSearch = () => {
     </div>
   );
 };
+
+export default TaskSearch;
