@@ -1,4 +1,4 @@
-export { Button } from "./button";
+export { Button } from "./Button";
 export { Dialog } from "./dialog";
 export { Select } from "./select";
 export { Input } from "./input";
