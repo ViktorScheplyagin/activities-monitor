@@ -19,7 +19,6 @@ export const useTaskSearch = () => {
     params.set("q", query);
     params.set("in", filters.join(","));
     window.history.replaceState(null, "", `?${params.toString()}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, filters]);
 
   return {
