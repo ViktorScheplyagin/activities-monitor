@@ -2,6 +2,7 @@ import { useTimerStore } from "@/features/timer/@x/time-accumulator";
 import { useTimeAccumulatorStore } from "../model/store";
 import { formatSeconds } from "@/entities/task";
 import { useEffect } from "react";
+import { Button } from "@/shared/ui";
 
 interface Props {
   taskId: string;
@@ -12,25 +13,36 @@ export const TimeAccumulator = ({ taskId, initialTime = 0 }: Props) => {
   const timeLeft = useTimerStore((state) => state.timeLeft);
   const mode = useTimerStore((state) => state.mode);
   const workDuration = useTimerStore((state) => state.workDuration);
+  const resetTimer = useTimerStore((state) => state.resetTimer);
   const totalTime = useTimeAccumulatorStore((state) => state.totalTime);
   const setTotalTime = useTimeAccumulatorStore((state) => state.setTotalTime);
   const updateAccumulatedTime = useTimeAccumulatorStore(
     (state) => state.updateAccumulatedTime
   );
 
+  const handleSaveProgress = () => {
+    const timePassed = workDuration - timeLeft;
+    updateAccumulatedTime(taskId, totalTime + timePassed);
+    resetTimer();
+  };
+
   useEffect(() => {
     setTotalTime(initialTime);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTime]);
 
   useEffect(() => {
     if (timeLeft === 0 && mode === "work") {
       updateAccumulatedTime(taskId, totalTime + workDuration);
+      resetTimer();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft, mode]);
 
   return (
-    <div className="text-gray-500">Total time: {formatSeconds(totalTime)}</div>
+    <div className="flex gap-4 items-center">
+      <div className="text-gray-500">
+        Total time: {formatSeconds(totalTime)}
+      </div>
+      <Button onClick={handleSaveProgress}>Save progress</Button>
+    </div>
   );
 };
