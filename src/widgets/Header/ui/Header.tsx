@@ -20,7 +20,7 @@ export const Header = () => {
   return (
     <header
       className={cn(
-        "w-full sticky top-0 right-0 p-4 flex justify-between items-center bg-gray-100 dark:bg-gray-900 transition-shadow duration-200",
+        "w-full sticky top-0 right-0 p-4 flex justify-between items-center bg-background transition-shadow duration-200",
         {
           "shadow-lg": isScrolled,
         }
