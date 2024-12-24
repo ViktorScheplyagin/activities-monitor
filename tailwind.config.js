@@ -18,6 +18,11 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        box: "-4px 4px 14px var(--shadow-bg-dark), 4px -4px 12px var(--shadow-bg-light)",
+        inset:
+          "inset -4px 4px 8px var(--shadow-bg-dark), inset 4px -4px 8px var(--shadow-bg-light)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
