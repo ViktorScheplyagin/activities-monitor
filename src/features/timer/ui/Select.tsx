@@ -4,8 +4,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Label,
-} from "@/shared/ui";
+} from "@/shared/ui/neomorphic";
+import { Label } from "@/shared/ui";
 import { cn } from "@/lib/utils";
 
 interface SelectOption {

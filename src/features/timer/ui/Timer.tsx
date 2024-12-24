@@ -1,9 +1,14 @@
-import { Card } from "@/shared/ui";
 import { TimerDisplay } from "./TimerDisplay";
 import { Controls } from "./Controls";
 import { useTimerLogicSetup } from "../model/timer";
 import { useTimerStore } from "../model/store";
-import { CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/shared/ui/neomorphic";
 
 interface Props {
   title?: string;

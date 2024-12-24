@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/shared/ui";
+import { Button } from "@/shared/ui/neomorphic";
 import { Select } from "./Select";
 import { TIMER_OPTIONS } from "../constants/timerOptions";
 import { useTimerStore } from "../model/store";
