@@ -1,7 +1,7 @@
 "use client";
 import { TimeAccumulator } from "@/features/time-accumulator";
 import { TaskDetailsForm } from "@/features/task-form";
-import { Button, Card } from "@/shared/ui";
+import { Button, Card } from "@/shared/ui/neomorphic";
 import { useTask } from "../model/use-task";
 import { Timer } from "@/features/timer";
 import { DeleteTaskDialog } from "@/features/tasks-list";
