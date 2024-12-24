@@ -2,7 +2,7 @@ import { useTimerStore } from "@/features/timer/@x/time-accumulator";
 import { useTimeAccumulatorStore } from "../model/store";
 import { formatSeconds } from "@/entities/task";
 import { useEffect } from "react";
-import { Button } from "@/shared/ui";
+import { Button } from "@/shared/ui/neomorphic";
 
 interface Props {
   taskId: string;
