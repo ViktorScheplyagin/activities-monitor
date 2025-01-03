@@ -24,7 +24,7 @@ export const TimerDisplay: React.FC<TimerProps> = ({
           "text-green-500 dark:text-green-400": mode === "break",
           "text-blue-500 dark:text-blue-400": mode === "longBreak",
         },
-        className
+        className,
       )}
     >
       {minutes.toString().padStart(2, "0")}:

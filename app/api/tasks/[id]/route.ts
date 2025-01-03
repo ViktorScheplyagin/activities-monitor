@@ -3,7 +3,7 @@ import { prisma } from "@/shared/api/database";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const task = await prisma.task.findUnique({
@@ -19,14 +19,14 @@ export async function GET(
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch task" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     await prisma.task.delete({
@@ -38,14 +38,14 @@ export async function DELETE(
     console.error("Failed to delete task:", error);
     return NextResponse.json(
       { error: "Failed to delete task" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const data = await request.json();
@@ -60,7 +60,7 @@ export async function PATCH(
     console.error("Failed to update task:", error);
     return NextResponse.json(
       { error: "Failed to update task" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

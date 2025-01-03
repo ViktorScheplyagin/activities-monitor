@@ -14,7 +14,7 @@ export const Controls: React.FC = () => {
   const setTimeLeft = useTimerStore((state) => state.setTimeLeft);
   const setBreakDuration = useTimerStore((state) => state.setBreakDuration);
   const setLongBreakDuration = useTimerStore(
-    (state) => state.setLongBreakDuration
+    (state) => state.setLongBreakDuration,
   );
   const resetTimer = useTimerStore((state) => state.resetTimer);
 

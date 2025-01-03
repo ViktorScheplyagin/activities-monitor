@@ -60,7 +60,7 @@ describe("Controls", () => {
     fireEvent.click(screen.getByTestId("work-duration"));
     await waitFor(() => {
       expect(
-        screen.getByRole("option", { name: "25 min" })
+        screen.getByRole("option", { name: "25 min" }),
       ).toBeInTheDocument();
     });
     fireEvent.click(screen.getByRole("option", { name: "25 min" }));

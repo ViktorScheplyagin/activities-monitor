@@ -108,7 +108,7 @@ describe("Timer Store", () => {
       state.resetTimer();
 
       expect(useTimerStore.getState().timeLeft).toBe(
-        state.longBreakDuration * 60
+        state.longBreakDuration * 60,
       );
       expect(useTimerStore.getState().isRunning).toBe(false);
     });

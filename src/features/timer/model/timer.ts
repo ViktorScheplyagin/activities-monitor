@@ -35,7 +35,7 @@ export const useTimerLogicSetup = () => {
 
   useEffect(() => {
     const timeWorker = new Worker(
-      new URL("../workers/timeWorker.ts", import.meta.url)
+      new URL("../workers/timeWorker.ts", import.meta.url),
     );
 
     timeWorker.onmessage = () => {

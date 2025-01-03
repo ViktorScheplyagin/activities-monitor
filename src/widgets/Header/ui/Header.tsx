@@ -23,7 +23,7 @@ export const Header = () => {
         "w-full sticky top-0 right-0 p-4 flex justify-between items-center bg-background transition-shadow duration-200",
         {
           "shadow-lg": isScrolled,
-        }
+        },
       )}
     >
       <div className="flex items-center gap-4">

@@ -20,7 +20,7 @@ export const ThemeSwitcher = ({ className }: Props) => {
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       className={cn(
         "rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-800 relative",
-        className
+        className,
       )}
     >
       <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

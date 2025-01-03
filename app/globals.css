@@ -16,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: var(--foreground);
 
-    --primary: var(--background); 
+    --primary: var(--background);
     --primary-foreground: var(--foreground);
 
     --secondary: 240 4.8% 95.9%;
@@ -52,7 +52,7 @@
     --popover-foreground: var(--foreground);
 
     --primary: var(--background);
-    --primary-foreground: var(--foreground); 
+    --primary-foreground: var(--foreground);
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;

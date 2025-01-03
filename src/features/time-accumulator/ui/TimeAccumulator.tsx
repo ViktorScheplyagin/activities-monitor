@@ -17,7 +17,7 @@ export const TimeAccumulator = ({ taskId, initialTime = 0 }: Props) => {
   const totalTime = useTimeAccumulatorStore((state) => state.totalTime);
   const setTotalTime = useTimeAccumulatorStore((state) => state.setTotalTime);
   const updateAccumulatedTime = useTimeAccumulatorStore(
-    (state) => state.updateAccumulatedTime
+    (state) => state.updateAccumulatedTime,
   );
 
   const handleSaveProgress = () => {
