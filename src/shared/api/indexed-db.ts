@@ -42,6 +42,7 @@ class IndexedDBService {
         return transaction.objectStore(TASKS_STORE);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async getAllTasks(query?: string, filters?: string[]): Promise<TaskData[]> {
         const store = await this.getStore();
         return new Promise((resolve, reject) => {
