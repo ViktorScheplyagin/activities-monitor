@@ -41,7 +41,7 @@ export const TasksList = () => {
                     <Link
                         key={task.id}
                         href={`/tasks/${task.id}`}
-                        className="block transition-transform hover:scale-[1.02]"
+                        className="block"
                     >
                         <Task task={task} onDeleteClick={handleDeleteClick} />
                     </Link>
