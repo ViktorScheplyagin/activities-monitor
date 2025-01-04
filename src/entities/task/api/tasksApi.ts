@@ -1,50 +1,31 @@
-import { Task, TaskStatus } from "@prisma/client";
-import { api } from "@/shared/api/axios";
+import { TaskData } from "./dto/task";
+import { db } from "@/shared/api/indexed-db";
 import { SearchParams } from "../model/types";
 
-interface CreateTaskData {
-  title: string;
-  description: string;
-  status?: TaskStatus;
-}
+type CreateTaskData = Pick<TaskData, "title" | "description">;
 
-interface UpdateTaskData {
-  title?: string;
-  description?: string;
-  status?: TaskStatus;
-  time?: number;
-}
+type UpdateTaskData = Partial<Pick<TaskData, "title" | "description" | "time">>;
 
 export const tasksApi = {
-  getAll: async (searchParams?: SearchParams): Promise<Task[]> => {
-    const params = new URLSearchParams();
-    if (searchParams?.query) {
-      params.set("q", searchParams.query);
-    }
-    if (searchParams?.filters) {
-      params.set("in", searchParams.filters.join(","));
-    }
+    getAll: async (searchParams?: SearchParams): Promise<TaskData[]> => {
+        return db.getAllTasks(searchParams?.query, searchParams?.filters);
+    },
 
-    const { data } = await api.get(`/tasks?${params}`);
-    return data;
-  },
+    getById: async (id: string): Promise<TaskData> => {
+        const task = await db.getTaskById(id);
+        if (!task) throw new Error("Task not found");
+        return task;
+    },
 
-  getById: async (id: string): Promise<Task> => {
-    const { data } = await api.get(`/tasks/${id}`);
-    return data;
-  },
+    create: async (data: CreateTaskData): Promise<TaskData> => {
+        return db.createTask(data);
+    },
 
-  create: async (data: CreateTaskData): Promise<Task> => {
-    const { data: response } = await api.post("/tasks", data);
-    return response;
-  },
+    update: async (id: string, data: UpdateTaskData): Promise<TaskData> => {
+        return db.updateTask(id, data);
+    },
 
-  update: async (id: string, data: UpdateTaskData): Promise<Task> => {
-    const { data: response } = await api.patch(`/tasks/${id}`, data);
-    return response;
-  },
-
-  delete: async (id: string): Promise<void> => {
-    await api.delete(`/tasks/${id}`);
-  },
+    delete: async (id: string): Promise<void> => {
+        return db.deleteTask(id);
+    },
 };
