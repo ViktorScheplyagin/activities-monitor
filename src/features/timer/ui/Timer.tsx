@@ -35,11 +35,7 @@ export const Timer = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="text-center">
-                        <TimerDisplay
-                            className="text-6xl"
-                            timeLeft={timeLeft}
-                            mode={mode}
-                        />
+                        <TimerDisplay timeLeft={timeLeft} mode={mode} />
                         <div className="text-2xl mt-2 dark:text-gray-400 capitalize">
                             {mode}
                         </div>
