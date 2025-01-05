@@ -21,8 +21,6 @@ const config = {
             boxShadow: {
                 box: "-4px 4px 14px var(--shadow-bg-dark), 4px -4px 12px var(--shadow-bg-light)",
                 inset: "inset -4px 4px 8px var(--shadow-bg-dark), inset 4px -4px 8px var(--shadow-bg-light)",
-                "inset-destructive":
-                    "inset -4px 4px 8px var(--shadow-destructive-dark), inset 4px -4px 8px var(--shadow-destructive-light)",
                 "inset-mini":
                     "inset -2px 2px 4px var(--shadow-bg-dark), inset 2px -2px 4px var(--shadow-bg-light)",
             },

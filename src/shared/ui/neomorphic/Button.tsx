@@ -12,8 +12,11 @@ const buttonVariants = cva(
             variant: {
                 default:
                     "bg-primary text-primary-foreground shadow-box active:shadow-inset",
-                destructive:
-                    "bg-destructive text-destructive-foreground active:shadow-inset-destructive",
+                destructive: cn(
+                    "bg-primary text-red-500 dark:text-red-600 shadow-box active:shadow-inset",
+                    "active:[text-shadow:0_0_10px_rgba(220,30,30,0.5),0_0_15px_rgba(220,30,30,0.3),0_0_25px_rgba(220,30,30,0.2)]",
+                    "dark:active:[text-shadow:0_0_5px_rgba(220,38,38,0.8),0_0_10px_rgba(220,38,38,0.5),0_0_20px_rgba(220,38,38,0.3)]"
+                ),
                 outline:
                     "border border-input bg-background shadow-box active:shadow-inset",
                 ghost: "hover:bg-accent hover:text-accent-foreground active:shadow-inset",
@@ -57,7 +60,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <Comp
                 className={cn(
                     buttonVariants({ variant, size, className }),
-                    "disabled:opacity-50 disabled:cursor-not-allowed disabled:active:shadow-none"
+                    "disabled:opacity-50 disabled:cursor-default disabled:active:shadow-box"
                 )}
                 ref={ref}
                 disabled={isLoading}

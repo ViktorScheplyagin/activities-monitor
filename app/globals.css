@@ -10,9 +10,6 @@
     --shadow-bg-light: #ffffff;
     --shadow-bg-dark: #c5c5c5;
 
-    --shadow-destructive-light: #ff9f9f;
-    --shadow-destructive-dark: #a42f2f;
-
     --card: var(--background);
     --card-foreground: var(--foreground);
 
@@ -47,9 +44,6 @@
 
     --shadow-bg-light: #525252;
     --shadow-bg-dark: #363636;
-
-    --shadow-destructive-light: #991b1b;
-    --shadow-destructive-dark: #450a0a;
 
     --card: var(--background);
     --card-foreground: var(--foreground);
