@@ -12,9 +12,7 @@ export const Navigation = () => {
                 href="/"
                 className={cn(
                     "px-4 py-2 rounded-lg transition-all duration-300",
-                    isHome
-                        ? "shadow-inset pointer-events-none"
-                        : "shadow-box hover:shadow-inset"
+                    isHome ? "shadow-inset pointer-events-none" : "shadow-box"
                 )}
             >
                 Home
