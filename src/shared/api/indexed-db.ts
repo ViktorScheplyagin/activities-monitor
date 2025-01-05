@@ -53,11 +53,20 @@ class IndexedDBService {
 
                 if (query) {
                     const searchQuery = query.toLowerCase();
-                    tasks = tasks.filter(
-                        (task) =>
-                            task.title.toLowerCase().includes(searchQuery) ||
-                            task.description.toLowerCase().includes(searchQuery)
-                    );
+                    tasks = tasks.filter((task) => {
+                        let isMatch = false;
+                        if (filters?.includes("name")) {
+                            isMatch = task.title
+                                .toLowerCase()
+                                .includes(searchQuery);
+                        }
+                        if (filters?.includes("description")) {
+                            isMatch = task.description
+                                .toLowerCase()
+                                .includes(searchQuery);
+                        }
+                        return isMatch;
+                    });
                 }
 
                 resolve(tasks);
