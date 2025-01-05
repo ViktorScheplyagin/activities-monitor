@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "DS-Digital";
+  src: url("/features/timer/assets/fonts/ds_digital/DS-DIGIT.TTF") format("truetype");
+}
+
 @layer base {
   :root {
     --background: 0, 0%, 90.98%; /* #e8e8e8 */
@@ -60,7 +65,7 @@
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 240 3.7% 15.9%;
+    --accent: 240, 5.26%, 26.08%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
