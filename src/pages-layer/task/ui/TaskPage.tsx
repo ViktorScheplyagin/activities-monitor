@@ -9,63 +9,66 @@ import { useState } from "react";
 import { useTimerNotification } from "@/features/notification";
 
 interface Props {
-  id: string;
+    id: string;
 }
 
 export const TaskPage = ({ id }: Props) => {
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const { task, handleSubmit, handleDelete, isSubmitting, isDeleting } =
-    useTask(id);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const { task, handleSubmit, handleDelete, isSubmitting, isDeleting } =
+        useTask(id);
 
-  useTimerNotification({
-    title: "Pomodoro завершён!",
-  });
+    useTimerNotification({
+        title: "Pomodoro завершён!",
+    });
 
-  const onDeleteConfirm = async () => {
-    await handleDelete();
-    setIsDeleteDialogOpen(false);
-  };
+    const onDeleteConfirm = async () => {
+        await handleDelete();
+        setIsDeleteDialogOpen(false);
+    };
 
-  return (
-    <>
-      <div className="flex-1 flex gap-8 justify-center items-start p-8">
-        <div className="w-1/3">
-          <Timer />
-        </div>
-        <div className="w-1/2 space-y-4">
-          <div className="flex justify-between items-center">
-            <TimeAccumulator taskId={id} initialTime={task?.time} />
-            <Button
-              variant="destructive"
-              onClick={() => setIsDeleteDialogOpen(true)}
-              disabled={isDeleting}
-              isLoading={isDeleting}
-            >
-              Delete task
-            </Button>
-          </div>
-          <Card>
-            <TaskDetailsForm
-              defaultValues={task || undefined}
-              onSubmit={handleSubmit}
-              actions={({ isDirty }) => (
-                <Button
-                  isLoading={isSubmitting}
-                  disabled={isSubmitting || !isDirty}
-                  type="submit"
-                >
-                  Save Changes
-                </Button>
-              )}
+    return (
+        <>
+            <div className="flex flex-col lg:flex-row gap-8 justify-center items-start">
+                <div className="w-full lg:w-1/3">
+                    <Timer />
+                </div>
+                <div className="w-full lg:w-2/3">
+                    <Card className="space-y-6">
+                        <div className="flex justify-between items-end lg:items-center">
+                            <TimeAccumulator
+                                taskId={id}
+                                initialTime={task?.time}
+                            />
+                            <Button
+                                variant="destructive"
+                                onClick={() => setIsDeleteDialogOpen(true)}
+                                disabled={isDeleting}
+                                isLoading={isDeleting}
+                            >
+                                Delete task
+                            </Button>
+                        </div>
+                        <TaskDetailsForm
+                            defaultValues={task || undefined}
+                            onSubmit={handleSubmit}
+                            actions={({ isDirty }) => (
+                                <Button
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isDirty}
+                                    type="submit"
+                                >
+                                    Save Changes
+                                </Button>
+                            )}
+                        />
+                    </Card>
+                </div>
+            </div>
+            <DeleteTaskDialog
+                isOpen={isDeleteDialogOpen}
+                onClose={() => setIsDeleteDialogOpen(false)}
+                onConfirm={onDeleteConfirm}
             />
-          </Card>
-        </div>
-      </div>
-      <DeleteTaskDialog
-        isOpen={isDeleteDialogOpen}
-        onClose={() => setIsDeleteDialogOpen(false)}
-        onConfirm={onDeleteConfirm}
-      />
-    </>
-  );
+        </>
+    );
 };
