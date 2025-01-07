@@ -12,14 +12,17 @@ export const TimerDisplay: React.FC<TimerProps> = ({
     mode,
     className,
 }) => {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
+    const minutesChars = Math.floor(timeLeft / 60)
+        .toString()
+        .padStart(2, "0")
+        .split("");
+    const secondsChars = (timeLeft % 60).toString().padStart(2, "0").split("");
 
     return (
         <div
             className={cn(
                 "text-6xl m-auto rounded-lg font-bold shadow-inset w-44 py-2",
-                "font-['DS-Digital'] tracking-wider",
+                "font-['DS-Digital',monospace] tracking-wider tabular-nums",
                 "dark:[text-shadow:0_0_15px_currentColor]",
                 {
                     "text-red-500": mode === "work",
@@ -29,8 +32,19 @@ export const TimerDisplay: React.FC<TimerProps> = ({
                 className
             )}
         >
-            {minutes.toString().padStart(2, "0")}:
-            {seconds.toString().padStart(2, "0")}
+            <span className="inline-block w-[1ch] text-end">
+                {minutesChars[0]}
+            </span>
+            <span className="inline-block w-[1ch] text-end">
+                {minutesChars[1]}
+            </span>
+            :
+            <span className="inline-block w-[1ch] text-end">
+                {secondsChars[0]}
+            </span>
+            <span className="inline-block w-[1ch] text-end">
+                {secondsChars[1]}
+            </span>
         </div>
     );
 };
