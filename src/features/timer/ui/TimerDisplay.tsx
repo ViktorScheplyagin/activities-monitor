@@ -38,7 +38,7 @@ export const TimerDisplay: React.FC<TimerProps> = ({
             <span className="inline-block w-[1ch] text-end">
                 {minutesChars[1]}
             </span>
-            :
+            <span className="inline-block w-[0.6ch] text-center">:</span>
             <span className="inline-block w-[1ch] text-end">
                 {secondsChars[0]}
             </span>
