@@ -5,6 +5,7 @@ const DB_VERSION = 1;
 const TASKS_STORE = "tasks";
 
 type CreateTaskData = Pick<TaskData, "title" | "description" | "createdAt">;
+type QueryFilters = "name" | "description";
 
 class IndexedDBService {
     private db: IDBDatabase | null = null;
@@ -43,7 +44,10 @@ class IndexedDBService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async getAllTasks(query?: string, filters?: string[]): Promise<TaskData[]> {
+    async getAllTasks(
+        query?: string,
+        filters?: QueryFilters[]
+    ): Promise<TaskData[]> {
         const store = await this.getStore();
         return new Promise((resolve, reject) => {
             const request = store.getAll();
@@ -52,26 +56,37 @@ class IndexedDBService {
                 let tasks = request.result as TaskData[];
 
                 if (query) {
-                    const searchQuery = query.toLowerCase();
-                    tasks = tasks.filter((task) => {
-                        let isMatch = false;
-                        if (filters?.includes("name")) {
-                            isMatch = task.title
-                                .toLowerCase()
-                                .includes(searchQuery);
-                        }
-                        if (filters?.includes("description")) {
-                            isMatch = task.description
-                                .toLowerCase()
-                                .includes(searchQuery);
-                        }
-                        return isMatch;
-                    });
+                    tasks = this._filterTasks(tasks, query, filters);
                 }
 
                 resolve(tasks);
             };
         });
+    }
+
+    private _filterTasks(
+        tasks: TaskData[],
+        query: string,
+        filters?: QueryFilters[]
+    ): TaskData[] {
+        const searchQuery = query.toLowerCase();
+
+        tasks = tasks.filter((task) => {
+            let isNameMatch = false;
+            let isDescriptionMatch = false;
+
+            if (filters?.includes("name")) {
+                isNameMatch = task.title.toLowerCase().includes(searchQuery);
+            }
+            if (filters?.includes("description")) {
+                isDescriptionMatch = task.description
+                    .toLowerCase()
+                    .includes(searchQuery);
+            }
+            return isNameMatch || isDescriptionMatch;
+        });
+
+        return tasks;
     }
 
     async getTaskById(id: string): Promise<TaskData | null> {
@@ -88,6 +103,7 @@ class IndexedDBService {
         const newTask: TaskData = {
             ...task,
             id: crypto.randomUUID(),
+            status: "in-progress",
             time: 0,
         };
 
