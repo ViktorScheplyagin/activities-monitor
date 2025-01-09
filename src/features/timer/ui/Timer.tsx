@@ -12,14 +12,21 @@ import {
 } from "@/shared/ui/neomorphic";
 import { Settings as SettingsIcon } from "lucide-react";
 import { SettingsDialog } from "./SettingsDialog";
+import { TaskData } from "@/entities/task";
 
-export const Timer = () => {
+interface TimerProps {
+    task?: TaskData;
+}
+
+export const Timer = ({ task }: TimerProps) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const timeLeft = useTimerStore((state) => state.timeLeft);
     const mode = useTimerStore((state) => state.mode);
     const sessionsCount = useTimerStore((state) => state.sessionsCount);
 
     useTimerLogicSetup();
+
+    const isCompleted = task?.status === "done";
 
     return (
         <>
@@ -45,7 +52,7 @@ export const Timer = () => {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Controls />
+                    <Controls disabled={isCompleted} />
                 </CardFooter>
             </Card>
             <SettingsDialog

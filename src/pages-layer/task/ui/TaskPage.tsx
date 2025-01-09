@@ -36,7 +36,7 @@ export const TaskPage = ({ id }: Props) => {
         <>
             <div className="flex flex-col lg:flex-row gap-8 justify-center items-start">
                 <div className="w-full lg:w-1/3">
-                    <Timer />
+                    <Timer task={task || undefined} />
                 </div>
                 <div className="w-full lg:w-2/3">
                     <Card className="space-y-6">
