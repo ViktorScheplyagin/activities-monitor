@@ -4,7 +4,9 @@ import { SearchParams } from "../model/types";
 
 type CreateTaskData = Pick<TaskData, "title" | "description">;
 
-type UpdateTaskData = Partial<Pick<TaskData, "title" | "description" | "time">>;
+type UpdateTaskData = Partial<
+    Pick<TaskData, "title" | "description" | "time" | "status">
+>;
 
 export const tasksApi = {
     getAll: async (searchParams?: SearchParams): Promise<TaskData[]> => {

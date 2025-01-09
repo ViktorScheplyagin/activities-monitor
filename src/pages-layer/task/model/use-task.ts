@@ -4,6 +4,7 @@ import { tasksApi } from "@/entities/task/api/tasksApi";
 import type { TaskFormValues } from "@/features/task-form";
 import type { TaskData } from "@/entities/task";
 import { useFormContext } from "react-hook-form";
+import { TaskStatus } from "@/entities/task/api/dto/task";
 
 export const useTask = (id: string) => {
     const router = useRouter();
@@ -17,7 +18,6 @@ export const useTask = (id: string) => {
             try {
                 const taskData = await tasksApi.getById(id);
                 setTask(taskData);
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
                 router.push("/");
             }
@@ -46,6 +46,10 @@ export const useTask = (id: string) => {
         }
     };
 
+    const handleStatusChange = async (status: TaskStatus) => {
+        await tasksApi.update(id, { status });
+    };
+
     const handleDelete = async () => {
         try {
             setIsDeleting(true);
@@ -62,6 +66,7 @@ export const useTask = (id: string) => {
         task,
         handleSubmit,
         handleDelete,
+        handleStatusChange,
         isSubmitting,
         isDeleting,
     };

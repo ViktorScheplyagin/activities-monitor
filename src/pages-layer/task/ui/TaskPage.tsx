@@ -7,15 +7,21 @@ import { Timer } from "@/features/timer";
 import { DeleteTaskDialog } from "@/features/tasks-list";
 import { useState } from "react";
 import { useTimerNotification } from "@/features/notification";
-
+import { TaskMenu } from "./TaskMenu";
 interface Props {
     id: string;
 }
 
 export const TaskPage = ({ id }: Props) => {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const { task, handleSubmit, handleDelete, isSubmitting, isDeleting } =
-        useTask(id);
+    const {
+        task,
+        handleSubmit,
+        handleDelete,
+        handleStatusChange,
+        isSubmitting,
+        isDeleting,
+    } = useTask(id);
 
     useTimerNotification({
         title: "Pomodoro завершён!",
@@ -39,14 +45,15 @@ export const TaskPage = ({ id }: Props) => {
                                 taskId={id}
                                 initialTime={task?.time}
                             />
-                            <Button
-                                variant="destructive"
-                                onClick={() => setIsDeleteDialogOpen(true)}
+
+                            <TaskMenu
+                                status={task?.status || "in-progress"}
+                                onStatusChange={handleStatusChange}
+                                onDeleteClick={() => {
+                                    setIsDeleteDialogOpen(true);
+                                }}
                                 disabled={isDeleting}
-                                isLoading={isDeleting}
-                            >
-                                Delete task
-                            </Button>
+                            />
                         </div>
                         <TaskDetailsForm
                             defaultValues={task || undefined}

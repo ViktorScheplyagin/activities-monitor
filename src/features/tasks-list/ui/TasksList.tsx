@@ -8,7 +8,11 @@ import { Separator } from "@/shared/ui/neomorphic";
 import { formatDate } from "../lib/format-date";
 import { sortTasksByDate, groupTasksByDate } from "../lib/tasks-grouping";
 
-export const TasksList = () => {
+interface TasksListProps {
+    showCompleted?: boolean;
+}
+
+export const TasksList = ({ showCompleted = false }: TasksListProps) => {
     const {
         tasks,
         isLoading,
@@ -27,19 +31,24 @@ export const TasksList = () => {
         );
     }
 
-    const sortedTasks = sortTasksByDate(tasks);
+    const filteredTasks = tasks.filter((task) =>
+        showCompleted ? task.status === "done" : task.status === "in-progress"
+    );
+    const sortedTasks = sortTasksByDate(filteredTasks);
     const groupedTasks = groupTasksByDate(sortedTasks);
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="mb-4 flex justify-end">
-                <Button onClick={() => openEditor()}>New Task</Button>
-            </div>
+            {!showCompleted && (
+                <div className="mb-4 flex justify-end">
+                    <Button onClick={() => openEditor()}>New Task</Button>
+                </div>
+            )}
             <div data-testid="tasks-list" className="space-y-4">
-                {tasks.length === 0 && (
+                {filteredTasks.length === 0 && (
                     <Card>
                         <div className="text-center text-2xl font-bold text-gray-500 dark:text-gray-400">
-                            No tasks
+                            {showCompleted ? "No completed tasks" : "No tasks"}
                         </div>
                     </Card>
                 )}
