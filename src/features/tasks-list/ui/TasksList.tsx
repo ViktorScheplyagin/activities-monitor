@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Task } from "@/entities/task/ui/Task";
 import { useTasksList } from "../model/use-tasks-list";
 import { CreateTaskDialog } from "./CreateTaskDialog";
+import { Separator } from "@/shared/ui/neomorphic";
+import { formatDate } from "../lib/format-date";
+import { sortTasksByDate, groupTasksByDate } from "../lib/tasks-grouping";
 
 export const TasksList = () => {
     const {
@@ -12,8 +15,8 @@ export const TasksList = () => {
         openEditor,
         taskIdToDelete,
         handleDeleteClick,
-        handleDeleteConfirm,
         handleDeleteCancel,
+        handleDeleteConfirm,
     } = useTasksList();
 
     if (isLoading) {
@@ -23,6 +26,9 @@ export const TasksList = () => {
             </div>
         );
     }
+
+    const sortedTasks = sortTasksByDate(tasks);
+    const groupedTasks = groupTasksByDate(sortedTasks);
 
     return (
         <div className="flex flex-col gap-4">
@@ -37,14 +43,34 @@ export const TasksList = () => {
                         </div>
                     </Card>
                 )}
-                {tasks.map((task) => (
-                    <Link
-                        key={task.id}
-                        href={`/tasks/${task.id}`}
-                        className="block"
-                    >
-                        <Task task={task} onDeleteClick={handleDeleteClick} />
-                    </Link>
+                {Object.entries(groupedTasks).map(([date, dateTasks]) => (
+                    <div key={date}>
+                        <div className="flex items-center justify-center gap-4 my-6">
+                            <div className="flex-grow">
+                                <Separator />
+                            </div>
+                            <span className="text-sm font-medium text-gray-500 whitespace-nowrap">
+                                {formatDate(new Date(date))}
+                            </span>
+                            <div className="flex-grow">
+                                <Separator />
+                            </div>
+                        </div>
+                        <div className="space-y-4">
+                            {dateTasks.map((task) => (
+                                <Link
+                                    key={task.id}
+                                    href={`/tasks/${task.id}`}
+                                    className="block"
+                                >
+                                    <Task
+                                        task={task}
+                                        onDeleteClick={handleDeleteClick}
+                                    />
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
                 ))}
             </div>
             <CreateTaskDialog />

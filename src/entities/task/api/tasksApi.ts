@@ -18,7 +18,10 @@ export const tasksApi = {
     },
 
     create: async (data: CreateTaskData): Promise<TaskData> => {
-        return db.createTask(data);
+        return db.createTask({
+            ...data,
+            createdAt: new Date(),
+        });
     },
 
     update: async (id: string, data: UpdateTaskData): Promise<TaskData> => {

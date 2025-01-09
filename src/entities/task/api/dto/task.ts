@@ -3,4 +3,5 @@ export interface TaskData {
     title: string;
     description: string;
     time?: number;
+    createdAt: Date;
 }

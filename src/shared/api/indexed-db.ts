@@ -4,7 +4,7 @@ const DB_NAME = "pomodoro_db";
 const DB_VERSION = 1;
 const TASKS_STORE = "tasks";
 
-type CreateTaskData = Pick<TaskData, "title" | "description">;
+type CreateTaskData = Pick<TaskData, "title" | "description" | "createdAt">;
 
 class IndexedDBService {
     private db: IDBDatabase | null = null;
