@@ -18,7 +18,7 @@ const buttonVariants = cva(
                     "dark:active:[text-shadow:0_0_5px_rgba(220,38,38,0.8),0_0_10px_rgba(220,38,38,0.5),0_0_20px_rgba(220,38,38,0.3)]"
                 ),
                 outline:
-                    "border border-input bg-background shadow-box active:shadow-inset",
+                    "bg-background border border-input active:shadow-inset active:border-primary",
                 ghost: "hover:bg-accent hover:text-accent-foreground active:shadow-inset",
             },
             size: {
