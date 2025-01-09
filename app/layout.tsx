@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LayoutContent } from "./LayoutContent";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Pomodoro App",
@@ -14,12 +13,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="dark">
-            <body>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <LayoutContent>{children}</LayoutContent>
-                </Suspense>
-            </body>
+        <html lang="en">
+            <LayoutContent>{children}</LayoutContent>
         </html>
     );
 }

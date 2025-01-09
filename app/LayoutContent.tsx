@@ -19,11 +19,10 @@ const geistMono = localFont({
 
 export function LayoutContent({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     useEffect(() => {
         document.body.style.pointerEvents = "auto";
-    }, [pathname, searchParams]);
+    }, [pathname]);
 
     return (
         <body
