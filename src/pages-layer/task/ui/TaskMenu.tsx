@@ -22,7 +22,7 @@ export const TaskMenu = ({
 }: Props) => {
     const isDone = status === "done";
     const nextStatus = isDone ? "in-progress" : "done";
-    const nextStatusText = isDone ? "Back to in-progress" : "Make it done";
+    const nextStatusText = isDone ? "Back in progress" : "Mark as done";
 
     return (
         <DropdownMenu>
