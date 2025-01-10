@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TimerDisplay } from "./TimerDisplay";
 import { Controls } from "./Controls";
 import { useTimerLogicSetup } from "../model/timer";
@@ -21,12 +21,15 @@ interface TimerProps {
 export const Timer = ({ task }: TimerProps) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const timeLeft = useTimerStore((state) => state.timeLeft);
+    const resetTimer = useTimerStore((state) => state.resetTimer);
     const mode = useTimerStore((state) => state.mode);
     const sessionsCount = useTimerStore((state) => state.sessionsCount);
 
     useTimerLogicSetup();
 
     const isCompleted = task?.status === "done";
+
+    useEffect(() => resetTimer, []);
 
     return (
         <>
