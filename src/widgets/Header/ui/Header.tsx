@@ -1,7 +1,7 @@
 "use client";
 
-import { Navigation } from "@/features/navigation/ui/Navigation";
-import { ThemeSwitcher } from "@/features/theme/ui/ThemeSwitcher";
+import { Navigation } from "@/features/navigation";
+import { ThemeSwitcher } from "@/features/theme";
 import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/utils";
 
