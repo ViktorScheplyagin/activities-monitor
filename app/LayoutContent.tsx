@@ -2,7 +2,7 @@
 
 import { Header } from "@/widgets/Header";
 import localFont from "next/font/local";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const geistSans = localFont({
