@@ -48,7 +48,8 @@ export const useTask = (id: string) => {
     };
 
     const handleStatusChange = async (status: TaskStatus) => {
-        await tasksApi.update(id, { status });
+        const updatedTask = await tasksApi.update(id, { status });
+        setTask(updatedTask);
     };
 
     const handleDelete = async () => {
