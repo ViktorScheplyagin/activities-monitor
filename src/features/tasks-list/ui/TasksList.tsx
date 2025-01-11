@@ -52,35 +52,42 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
                         </div>
                     </Card>
                 )}
-                {Object.entries(groupedTasks).map(([date, dateTasks]) => (
-                    <div key={date}>
-                        <div className="flex items-center justify-center gap-4 my-6">
-                            <div className="flex-grow">
-                                <Separator />
+                {Object.entries(groupedTasks).map(([date, dateTasks]) => {
+                    const firstTask = dateTasks[0];
+                    const displayDate = new Date(
+                        firstTask.updatedAt || firstTask.createdAt
+                    );
+
+                    return (
+                        <div key={date}>
+                            <div className="flex items-center justify-center gap-4 my-6">
+                                <div className="flex-grow">
+                                    <Separator />
+                                </div>
+                                <span className="text-sm font-medium text-gray-500 whitespace-nowrap">
+                                    {formatDate(displayDate)}
+                                </span>
+                                <div className="flex-grow">
+                                    <Separator />
+                                </div>
                             </div>
-                            <span className="text-sm font-medium text-gray-500 whitespace-nowrap">
-                                {formatDate(new Date(date))}
-                            </span>
-                            <div className="flex-grow">
-                                <Separator />
+                            <div className="space-y-4">
+                                {dateTasks.map((task) => (
+                                    <Link
+                                        key={task.id}
+                                        href={`/tasks/${task.id}`}
+                                        className="block"
+                                    >
+                                        <Task
+                                            task={task}
+                                            onDeleteClick={handleDeleteClick}
+                                        />
+                                    </Link>
+                                ))}
                             </div>
                         </div>
-                        <div className="space-y-4">
-                            {dateTasks.map((task) => (
-                                <Link
-                                    key={task.id}
-                                    href={`/tasks/${task.id}`}
-                                    className="block"
-                                >
-                                    <Task
-                                        task={task}
-                                        onDeleteClick={handleDeleteClick}
-                                    />
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
             <CreateTaskDialog />
             <DeleteTaskDialog

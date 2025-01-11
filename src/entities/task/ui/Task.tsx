@@ -2,6 +2,7 @@ import { Card } from "@/shared/ui/neomorphic";
 import { TaskData } from "../api/dto/task";
 import { Trash2 } from "lucide-react";
 import { formatSeconds } from "../lib/formatSeconds";
+import { Badge } from "@/shared/ui/neomorphic";
 
 interface Props {
     task: TaskData;
@@ -21,7 +22,10 @@ export const Task = ({ task, className, onDeleteClick }: Props) => {
         >
             <div className="flex justify-between">
                 <div>
-                    <h3 className="text-lg font-medium">{task.title}</h3>
+                    <div className="flex items-center gap-2">
+                        <h3 className="text-lg font-medium">{task.title}</h3>
+                        {task.updatedAt && <Badge>updated</Badge>}
+                    </div>
                     <p className="text-gray-500 dark:text-gray-400">
                         {task.description}
                     </p>

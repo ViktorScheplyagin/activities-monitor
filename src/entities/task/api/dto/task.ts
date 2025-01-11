@@ -7,4 +7,5 @@ export interface TaskData {
     time?: number;
     status: TaskStatus;
     createdAt: Date;
+    updatedAt?: Date;
 }

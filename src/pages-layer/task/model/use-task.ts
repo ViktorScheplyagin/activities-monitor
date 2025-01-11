@@ -30,16 +30,12 @@ export const useTask = (id: string) => {
     const handleSubmit = async (values: TaskFormValues) => {
         try {
             setIsSubmitting(true);
-            await tasksApi.update(id, values);
-            if (task) {
-                const updatedTask = {
-                    ...task,
-                    title: values.title,
-                    description: values.description,
-                };
-                setTask(updatedTask);
-                form?.reset(updatedTask);
-            }
+            const updatedTask = await tasksApi.update(id, {
+                ...values,
+                updatedAt: new Date(),
+            });
+            setTask(updatedTask);
+            form?.reset(updatedTask);
         } catch (error) {
             console.error("Failed to update task:", error);
         } finally {
@@ -48,7 +44,10 @@ export const useTask = (id: string) => {
     };
 
     const handleStatusChange = async (status: TaskStatus) => {
-        const updatedTask = await tasksApi.update(id, { status });
+        const updatedTask = await tasksApi.update(id, {
+            status,
+            updatedAt: new Date(),
+        });
         setTask(updatedTask);
     };
 

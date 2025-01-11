@@ -6,3 +6,4 @@ export * from "./Textarea";
 export * from "./Checkbox";
 export * from "./AlertDialog";
 export * from "./Separator";
+export * from "./Badge";
