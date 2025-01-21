@@ -44,7 +44,7 @@
   }
 
   .dark {
-    --background: 0, 0%, 26.67%;
+    --background: 0, 0%, 26.67%; /* #444444 */
     --foreground: 0 0% 98%;
 
     --shadow-bg-light: #525252;
