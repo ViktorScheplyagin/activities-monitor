@@ -4,7 +4,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/shared/ui/dropdown-menu";
+} from "@/shared/ui";
 import { EllipsisVertical } from "lucide-react";
 
 interface Props {
