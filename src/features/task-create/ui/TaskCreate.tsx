@@ -1,6 +1,6 @@
 import { Button } from "@/shared/ui/neomorphic";
 import {
-    DialogRoot,
+    Dialog,
     DialogTrigger,
     DialogContent,
     DialogHeader,
@@ -10,7 +10,7 @@ import { TaskCreateForm } from "./TaskCreateForm";
 
 export const TaskCreate = () => {
     return (
-        <DialogRoot>
+        <Dialog>
             <div className="mb-4 flex justify-end">
                 <DialogTrigger asChild>
                     <Button>New Task</Button>
@@ -26,6 +26,6 @@ export const TaskCreate = () => {
 
                 <TaskCreateForm />
             </DialogContent>
-        </DialogRoot>
+        </Dialog>
     );
 };

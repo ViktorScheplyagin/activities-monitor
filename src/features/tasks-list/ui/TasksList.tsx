@@ -1,12 +1,12 @@
-import { Button, Card } from "@/shared/ui/neomorphic";
+import { Card } from "@/shared/ui/neomorphic";
 import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import Link from "next/link";
 import { Task } from "@/entities/task/ui/Task";
 import { useTasksList } from "../model/use-tasks-list";
-import { CreateTaskDialog } from "./CreateTaskDialog";
 import { Separator } from "@/shared/ui/neomorphic";
 import { formatDate } from "../lib/format-date";
 import { sortTasksByDate, groupTasksByDate } from "../lib/tasks-grouping";
+import { useTagsStore } from "@/features/tags/@x/tasks-list";
 
 interface TasksListProps {
     showCompleted?: boolean;
@@ -16,12 +16,13 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
     const {
         tasks,
         isLoading,
-        openEditor,
         taskIdToDelete,
         handleDeleteClick,
         handleDeleteCancel,
         handleDeleteConfirm,
     } = useTasksList();
+
+    const { tags: allTags, selectedTags, toggleTag } = useTagsStore();
 
     if (isLoading) {
         return (
@@ -31,19 +32,23 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
         );
     }
 
-    const filteredTasks = tasks.filter((task) =>
-        showCompleted ? task.status === "done" : task.status === "in-progress"
-    );
+    const filteredTasks = tasks.filter((task) => {
+        const statusMatch = showCompleted
+            ? task.status === "done"
+            : task.status === "in-progress";
+
+        const tagsMatch =
+            selectedTags.length === 0 ||
+            selectedTags.some((tagId) => task.tags?.includes(tagId));
+
+        return statusMatch && tagsMatch;
+    });
+
     const sortedTasks = sortTasksByDate(filteredTasks);
     const groupedTasks = groupTasksByDate(sortedTasks);
 
     return (
         <div className="flex flex-col gap-4">
-            {!showCompleted && (
-                <div className="mb-4 flex justify-end">
-                    <Button onClick={() => openEditor()}>New Task</Button>
-                </div>
-            )}
             <div data-testid="tasks-list" className="space-y-4">
                 {filteredTasks.length === 0 && (
                     <Card>
@@ -80,7 +85,9 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
                                     >
                                         <Task
                                             task={task}
+                                            tags={allTags}
                                             onDeleteClick={handleDeleteClick}
+                                            onTagClick={toggleTag}
                                         />
                                     </Link>
                                 ))}
@@ -89,7 +96,6 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
                     );
                 })}
             </div>
-            <CreateTaskDialog />
             <DeleteTaskDialog
                 isOpen={taskIdToDelete !== null}
                 onClose={handleDeleteCancel}
