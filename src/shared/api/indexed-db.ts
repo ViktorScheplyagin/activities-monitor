@@ -4,7 +4,7 @@ const DB_NAME = "pomodoro_db";
 const DB_VERSION = 1;
 const TASKS_STORE = "tasks";
 
-type CreateTaskData = Pick<TaskData, "title" | "description" | "createdAt">;
+type CreateTaskData = Pick<TaskData, "title" | "description" | "tags">;
 type QueryFilters = "name" | "description";
 
 class IndexedDBService {
@@ -105,6 +105,7 @@ class IndexedDBService {
             id: crypto.randomUUID(),
             status: "in-progress",
             time: 0,
+            createdAt: new Date(),
         };
 
         return new Promise((resolve, reject) => {
@@ -144,12 +145,13 @@ class IndexedDBService {
         });
     }
 
-    async deleteTask(id: string): Promise<void> {
+    async deleteTask(id: string): Promise<{ status: number }> {
         const store = await this.getStore("readwrite");
         return new Promise((resolve, reject) => {
             const request = store.delete(id);
-            request.onerror = () => reject(request.error);
-            request.onsuccess = () => resolve();
+            request.onerror = () =>
+                reject({ status: 500, error: request.error });
+            request.onsuccess = () => resolve({ status: 200 });
         });
     }
 }
