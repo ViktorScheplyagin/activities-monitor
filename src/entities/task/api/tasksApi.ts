@@ -2,7 +2,7 @@ import { TaskData } from "./dto/task";
 import { db } from "@/shared/api/indexed-db";
 import { SearchParams } from "../model/types";
 
-type CreateTaskData = Pick<TaskData, "title" | "description">;
+type CreateTaskData = Pick<TaskData, "title" | "description" | "tags">;
 
 type UpdateTaskData = Partial<TaskData>;
 
@@ -18,17 +18,14 @@ export const tasksApi = {
     },
 
     create: async (data: CreateTaskData): Promise<TaskData> => {
-        return db.createTask({
-            ...data,
-            createdAt: new Date(),
-        });
+        return db.createTask(data);
     },
 
     update: async (id: string, data: UpdateTaskData): Promise<TaskData> => {
         return db.updateTask(id, data);
     },
 
-    delete: async (id: string): Promise<void> => {
+    delete: async (id: string): Promise<{ status: number }> => {
         return db.deleteTask(id);
     },
 };

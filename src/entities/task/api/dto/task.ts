@@ -8,4 +8,5 @@ export interface TaskData {
     status: TaskStatus;
     createdAt: Date;
     updatedAt?: Date;
+    tags: string[];
 }
