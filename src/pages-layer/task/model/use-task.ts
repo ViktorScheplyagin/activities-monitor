@@ -11,7 +11,6 @@ export const useTask = (id: string) => {
     const router = useRouter();
     const [task, setTask] = useState<TaskData | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
     const form = useFormContext();
 
     useEffect(() => {
@@ -51,24 +50,10 @@ export const useTask = (id: string) => {
         setTask(updatedTask);
     };
 
-    const handleDelete = async () => {
-        try {
-            setIsDeleting(true);
-            await tasksApi.delete(id);
-            router.push("/");
-        } catch (error) {
-            console.error("Failed to delete task:", error);
-        } finally {
-            setIsDeleting(false);
-        }
-    };
-
     return {
         task,
         handleSubmit,
-        handleDelete,
         handleStatusChange,
         isSubmitting,
-        isDeleting,
     };
 };

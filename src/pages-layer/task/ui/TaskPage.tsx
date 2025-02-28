@@ -4,33 +4,29 @@ import { TaskDetailsForm } from "@/features/task-form";
 import { Button, Card } from "@/shared/ui/neomorphic";
 import { useTask } from "../model/use-task";
 import { Timer } from "@/features/timer";
-import { DeleteTaskDialog } from "@/features/tasks-list";
-import { useState } from "react";
 import { useTimerNotification } from "@/features/notification";
 import { TaskMenu } from "./TaskMenu";
+import { TagsCombobox } from "@/features/tags";
+import { TaskDelete } from "@/features/task-delete";
+import { useTaskDelete } from "@/features/task-delete";
+import { useRouter } from "next/navigation";
+
 interface Props {
     id: string;
 }
 
 export const TaskPage = ({ id }: Props) => {
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const {
-        task,
-        handleSubmit,
-        handleDelete,
-        handleStatusChange,
-        isSubmitting,
-        isDeleting,
-    } = useTask(id);
+    const { task, handleSubmit, handleStatusChange, isSubmitting } =
+        useTask(id);
+
+    const router = useRouter();
+    const { openDialogFor } = useTaskDelete({
+        onDelete: () => router.push("/"),
+    });
 
     useTimerNotification({
         title: "Pomodoro завершён!",
     });
-
-    const onDeleteConfirm = async () => {
-        await handleDelete();
-        setIsDeleteDialogOpen(false);
-    };
 
     return (
         <>
@@ -50,32 +46,33 @@ export const TaskPage = ({ id }: Props) => {
                                 status={task?.status || "in-progress"}
                                 onStatusChange={handleStatusChange}
                                 onDeleteClick={() => {
-                                    setIsDeleteDialogOpen(true);
+                                    openDialogFor(id);
                                 }}
-                                disabled={isDeleting}
                             />
                         </div>
                         <TaskDetailsForm
                             defaultValues={task || undefined}
                             onSubmit={handleSubmit}
                             actions={({ isDirty }) => (
-                                <Button
-                                    isLoading={isSubmitting}
-                                    disabled={isSubmitting || !isDirty}
-                                    type="submit"
-                                >
-                                    Save Changes
-                                </Button>
+                                <>
+                                    <TagsCombobox
+                                        selectedTagIds={task?.tags || []}
+                                        onTagsChange={console.log}
+                                    />
+                                    <Button
+                                        isLoading={isSubmitting}
+                                        disabled={isSubmitting || !isDirty}
+                                        type="submit"
+                                    >
+                                        Save Changes
+                                    </Button>
+                                </>
                             )}
                         />
                     </Card>
                 </div>
             </div>
-            <DeleteTaskDialog
-                isOpen={isDeleteDialogOpen}
-                onClose={() => setIsDeleteDialogOpen(false)}
-                onConfirm={onDeleteConfirm}
-            />
+            <TaskDelete />
         </>
     );
 };
