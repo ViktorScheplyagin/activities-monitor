@@ -1,3 +1,4 @@
+"use client";
 import { TaskStatus } from "@/entities/task/api/dto/task";
 import {
     DropdownMenu,
@@ -6,7 +7,7 @@ import {
     DropdownMenuTrigger,
 } from "@/shared/ui";
 import { EllipsisVertical } from "lucide-react";
-
+import { useState } from "react";
 interface Props {
     onDeleteClick: () => void;
     onStatusChange: (status: TaskStatus) => void;
@@ -20,12 +21,14 @@ export const TaskMenu = ({
     status,
     disabled,
 }: Props) => {
+    const [isOpen, setIsOpen] = useState(false);
+
     const isDone = status === "done";
     const nextStatus = isDone ? "in-progress" : "done";
     const nextStatusText = isDone ? "Back in progress" : "Mark as done";
 
     return (
-        <DropdownMenu>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger disabled={disabled}>
                 <EllipsisVertical />
             </DropdownMenuTrigger>
@@ -38,7 +41,10 @@ export const TaskMenu = ({
                 <DropdownMenuItem>
                     <span
                         className="text-red-500 dark:text-red-600"
-                        onClick={onDeleteClick}
+                        onClick={() => {
+                            onDeleteClick();
+                            setIsOpen(false);
+                        }}
                     >
                         Delete task
                     </span>

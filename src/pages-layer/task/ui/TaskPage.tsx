@@ -29,50 +29,45 @@ export const TaskPage = ({ id }: Props) => {
     });
 
     return (
-        <>
-            <div className="flex flex-col lg:flex-row gap-8 justify-center items-start">
-                <div className="w-full lg:w-1/3">
-                    <Timer task={task || undefined} />
-                </div>
-                <div className="w-full lg:w-2/3">
-                    <Card className="space-y-6">
-                        <div className="flex justify-between items-end lg:items-center">
-                            <TimeAccumulator
-                                taskId={id}
-                                initialTime={task?.time}
-                            />
+        <div className="flex flex-col lg:flex-row gap-8 justify-center items-start">
+            <div className="w-full lg:w-1/3">
+                <Timer task={task || undefined} />
+            </div>
+            <div className="w-full lg:w-2/3">
+                <Card className="space-y-6">
+                    <div className="flex justify-between items-end lg:items-center">
+                        <TimeAccumulator taskId={id} initialTime={task?.time} />
 
-                            <TaskMenu
-                                status={task?.status || "in-progress"}
-                                onStatusChange={handleStatusChange}
-                                onDeleteClick={() => {
-                                    openDialogFor(id);
-                                }}
-                            />
-                        </div>
-                        <TaskDetailsForm
-                            defaultValues={task || undefined}
-                            onSubmit={handleSubmit}
-                            actions={({ isDirty }) => (
-                                <>
-                                    <TagsCombobox
-                                        selectedTagIds={task?.tags || []}
-                                        onTagsChange={console.log}
-                                    />
-                                    <Button
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isDirty}
-                                        type="submit"
-                                    >
-                                        Save Changes
-                                    </Button>
-                                </>
-                            )}
+                        <TaskMenu
+                            status={task?.status || "in-progress"}
+                            onStatusChange={handleStatusChange}
+                            onDeleteClick={() => {
+                                openDialogFor(id);
+                            }}
                         />
-                    </Card>
-                </div>
+                    </div>
+                    <TaskDetailsForm
+                        defaultValues={task || undefined}
+                        onSubmit={handleSubmit}
+                        actions={({ isDirty }) => (
+                            <>
+                                <TagsCombobox
+                                    selectedTagIds={task?.tags || []}
+                                    onTagsChange={console.log}
+                                />
+                                <Button
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isDirty}
+                                    type="submit"
+                                >
+                                    Save Changes
+                                </Button>
+                            </>
+                        )}
+                    />
+                </Card>
             </div>
             <TaskDelete />
-        </>
+        </div>
     );
 };
