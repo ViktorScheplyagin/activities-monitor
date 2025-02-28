@@ -1,28 +1,22 @@
 import { Card } from "@/shared/ui/neomorphic";
-import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import Link from "next/link";
 import { Task } from "@/entities/task/ui/Task";
 import { useTasksList } from "../model/use-tasks-list";
 import { Separator } from "@/shared/ui/neomorphic";
 import { formatDate } from "../lib/format-date";
 import { sortTasksByDate, groupTasksByDate } from "../lib/tasks-grouping";
-import { useTagsStore } from "@/features/tags/@x/tasks-list";
 
 interface TasksListProps {
     showCompleted?: boolean;
+    onDeleteClick?: (taskId: string) => void;
 }
 
-export const TasksList = ({ showCompleted = false }: TasksListProps) => {
-    const {
-        tasks,
-        isLoading,
-        taskIdToDelete,
-        handleDeleteClick,
-        handleDeleteCancel,
-        handleDeleteConfirm,
-    } = useTasksList();
-
-    const { tags: allTags, selectedTags, toggleTag } = useTagsStore();
+export const TasksList = ({
+    showCompleted = false,
+    onDeleteClick,
+}: TasksListProps) => {
+    const { tasks, isLoading, allTags, selectedTags, toggleTag } =
+        useTasksList();
 
     if (isLoading) {
         return (
@@ -86,7 +80,7 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
                                         <Task
                                             task={task}
                                             tags={allTags}
-                                            onDeleteClick={handleDeleteClick}
+                                            onDeleteClick={onDeleteClick}
                                             onTagClick={toggleTag}
                                         />
                                     </Link>
@@ -96,11 +90,6 @@ export const TasksList = ({ showCompleted = false }: TasksListProps) => {
                     );
                 })}
             </div>
-            <DeleteTaskDialog
-                isOpen={taskIdToDelete !== null}
-                onClose={handleDeleteCancel}
-                onConfirm={handleDeleteConfirm}
-            />
         </div>
     );
 };

@@ -1,2 +1,2 @@
 export { TasksList } from "./ui/TasksList";
-export { DeleteTaskDialog } from "./ui/DeleteTaskDialog";
+export { useTasksListStore } from "./model/store";
