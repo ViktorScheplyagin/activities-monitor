@@ -3,17 +3,33 @@ import { TaskData } from "../api/dto/task";
 import { Trash2 } from "lucide-react";
 import { formatSeconds } from "../lib/formatSeconds";
 import { Badge } from "@/shared/ui/neomorphic";
+import { Tag } from "@/entities/tag";
 
 interface Props {
     task: TaskData;
     className?: string;
+    tags: Tag[];
     onDeleteClick?: (taskId: string) => void;
+    onTagClick?: (tagId: string) => void;
 }
 
-export const Task = ({ task, className, onDeleteClick }: Props) => {
+export const Task = ({
+    task,
+    tags,
+    className,
+    onDeleteClick,
+    onTagClick,
+}: Props) => {
+    const taskTags = tags.filter((tag) => task.tags?.includes(tag.id));
+
     const handleDeleteClick = (e: React.MouseEvent) => {
         e.preventDefault(); // Prevent link navigation
         onDeleteClick?.(task.id);
+    };
+
+    const handleTagClick = (e: React.MouseEvent, tagId: string) => {
+        e.preventDefault(); // Prevent link navigation
+        onTagClick?.(tagId);
     };
 
     return (
@@ -32,6 +48,20 @@ export const Task = ({ task, className, onDeleteClick }: Props) => {
                     <div className="pt-4 text-gray-500 dark:text-gray-400">
                         Time spent: {formatSeconds(task.time)}
                     </div>
+                    {taskTags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-4">
+                            {taskTags.map((tag) => (
+                                <Badge
+                                    key={tag.id}
+                                    variant="secondary"
+                                    className="cursor-pointer"
+                                    onClick={(e) => handleTagClick(e, tag.id)}
+                                >
+                                    #{tag.name}
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {onDeleteClick && (
