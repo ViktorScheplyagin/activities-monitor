@@ -14,6 +14,7 @@ interface Props {
     actions?: (formState: {
         isDirty: boolean;
         isSubmitting: boolean;
+        form: ReturnType<typeof useForm<TaskFormValues>>;
     }) => React.ReactNode;
     defaultActions?: {
         onCancel?: () => void;
@@ -33,6 +34,7 @@ export const TaskDetailsForm = ({
         defaultValues: {
             title: "",
             description: "",
+            tags: [],
         },
     });
 
@@ -71,6 +73,7 @@ export const TaskDetailsForm = ({
                     actions({
                         isDirty: form.formState.isDirty,
                         isSubmitting: form.formState.isSubmitting,
+                        form,
                     })
                 ) : (
                     <DefaultActions

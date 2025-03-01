@@ -49,11 +49,15 @@ export const TaskPage = ({ id }: Props) => {
                     <TaskDetailsForm
                         defaultValues={task || undefined}
                         onSubmit={handleSubmit}
-                        actions={({ isDirty }) => (
+                        actions={({ isDirty, form }) => (
                             <>
                                 <TagsCombobox
-                                    selectedTagIds={task?.tags || []}
-                                    onTagsChange={console.log}
+                                    selectedTagIds={form.watch("tags")}
+                                    onTagsChange={(tags) =>
+                                        form.setValue("tags", tags, {
+                                            shouldDirty: true,
+                                        })
+                                    }
                                 />
                                 <Button
                                     isLoading={isSubmitting}

@@ -32,6 +32,7 @@ export function TagsCombobox({
         cancelNewTag,
     } = useCombobox({ selectedTagIds, onTagsChange });
 
+    // TODO: split the combobox into a separate components
     return (
         <Command className="rounded-lg border">
             <CommandInput placeholder="Search tags..." />
