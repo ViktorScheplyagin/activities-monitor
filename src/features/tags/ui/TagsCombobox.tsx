@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Check, Plus } from "lucide-react";
-import { Button, Input } from "@/shared/ui/neomorphic";
+import { Check, Plus, Pencil } from "lucide-react";
 import {
     Command,
     CommandEmpty,
@@ -11,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useCombobox } from "../model/use-combobox";
 import { CommandList } from "cmdk";
+import { TagEdit } from "./TagEdit";
 
 // TODO: move this to a separate feature
 interface TagsComboboxProps {
@@ -23,13 +23,15 @@ export function TagsCombobox({
     onTagsChange,
 }: TagsComboboxProps) {
     const {
-        isCreatingNew,
-        newTagName,
+        isEditing,
+        editMode,
+        tagName,
         tags,
-        setNewTagName,
+        setTagName,
         handleSelect,
-        handleCreateNewTag,
-        cancelNewTag,
+        startRenamingTag,
+        handleSaveTag,
+        cancelEditing,
     } = useCombobox({ selectedTagIds, onTagsChange });
 
     // TODO: split the combobox into a separate components
@@ -39,32 +41,14 @@ export function TagsCombobox({
             <CommandList>
                 <CommandEmpty>No tags found.</CommandEmpty>
                 <CommandGroup>
-                    {isCreatingNew ? (
-                        // TODO: move the tag creation to a separate component, remove related logic from the useCombobox hook
-                        <div className="flex flex-col gap-2">
-                            <Input
-                                value={newTagName}
-                                onChange={(e) => setNewTagName(e.target.value)}
-                                placeholder="New tag name..."
-                                className="block"
-                            />
-                            <div className="flex justify-end gap-2">
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={cancelNewTag}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    size="sm"
-                                    onClick={handleCreateNewTag}
-                                    disabled={!newTagName.trim()}
-                                >
-                                    Add
-                                </Button>
-                            </div>
-                        </div>
+                    {isEditing ? (
+                        <TagEdit
+                            tagName={tagName}
+                            setTagName={setTagName}
+                            handleSaveTag={handleSaveTag}
+                            cancelEditing={cancelEditing}
+                            editMode={editMode}
+                        />
                     ) : (
                         <>
                             <CommandItem
@@ -79,16 +63,29 @@ export function TagsCombobox({
                                     key={tag.id}
                                     value={tag.name}
                                     onSelect={() => handleSelect(tag.id)}
+                                    className="group flex items-center justify-between"
                                 >
-                                    <Check
-                                        className={cn(
-                                            "mr-2 h-4 w-4",
-                                            selectedTagIds.includes(tag.id)
-                                                ? "opacity-100"
-                                                : "opacity-0"
-                                        )}
-                                    />
-                                    {tag.name}
+                                    <div className="flex items-center">
+                                        <Check
+                                            className={cn(
+                                                "mr-2 h-4 w-4",
+                                                selectedTagIds.includes(tag.id)
+                                                    ? "opacity-100"
+                                                    : "opacity-0"
+                                            )}
+                                        />
+                                        {tag.name}
+                                    </div>
+                                    <div
+                                        className="h-4 w-4 opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            startRenamingTag(tag.id, tag.name);
+                                        }}
+                                    >
+                                        <Pencil className="h-4 w-4" />
+                                    </div>
                                 </CommandItem>
                             ))}
                         </>
