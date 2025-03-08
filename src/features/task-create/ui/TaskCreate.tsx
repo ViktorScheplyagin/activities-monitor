@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/shared/ui/neomorphic";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from "@/shared/ui/dialog";
+    Button,
+} from "@/shared/ui/neomorphic";
 import { TaskCreateForm } from "./TaskCreateForm";
 import { useTaskCreateStore } from "../model/store";
 import { useEffect } from "react";

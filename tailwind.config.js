@@ -19,10 +19,12 @@ const config = {
         },
         extend: {
             boxShadow: {
-                box: "-4px 4px 14px var(--shadow-bg-dark), 4px -4px 12px var(--shadow-bg-light)",
-                inset: "inset -4px 4px 8px var(--shadow-bg-dark), inset 4px -4px 8px var(--shadow-bg-light)",
+                box: "-4px 4px 14px var(--shadow-bg-dark), 4px -4px 12px var(--shadow-bg-light), inset -2px 3px 10px var(--shadow-bg-light), inset 1px -3px 5px var(--shadow-bg-dark);",
+                "box-lifted":
+                    "-4px 4px 30px var(--shadow-bg-dark), 4px -4px 12px var(--shadow-bg-light), inset -2px 3px 10px var(--shadow-bg-light), inset 1px -3px 5px var(--shadow-bg-dark);",
+                inset: "inset -4px 4px 8px var(--shadow-bg-dark), inset 4px -4px 8px var(--shadow-bg-light), -2px 3px 10px var(--shadow-bg-light), 1px -3px 5px var(--shadow-bg-dark);",
                 "inset-mini":
-                    "inset -2px 2px 4px var(--shadow-bg-dark), inset 2px -2px 4px var(--shadow-bg-light)",
+                    "inset -2px 2px 4px var(--shadow-bg-dark), inset 2px -2px 4px var(--shadow-bg-light), -2px 2px 4px var(--shadow-bg-light), 2px -2px 4px var(--shadow-bg-dark)",
             },
             colors: {
                 border: "hsl(var(--border))",

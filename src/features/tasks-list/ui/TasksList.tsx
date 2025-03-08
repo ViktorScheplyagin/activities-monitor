@@ -46,7 +46,7 @@ export const TasksList = ({
             <div data-testid="tasks-list" className="space-y-4">
                 {filteredTasks.length === 0 && (
                     <Card>
-                        <div className="text-center text-2xl font-bold text-gray-500 dark:text-gray-400">
+                        <div className="text-center text-2xl font-bold text-foreground dark:text-gray-400">
                             {showCompleted ? "No completed tasks" : "No tasks"}
                         </div>
                     </Card>
@@ -63,7 +63,7 @@ export const TasksList = ({
                                 <div className="flex-grow">
                                     <Separator />
                                 </div>
-                                <span className="text-sm font-medium text-gray-500 whitespace-nowrap">
+                                <span className="text-sm font-medium text-foreground whitespace-nowrap">
                                     {formatDate(displayDate)}
                                 </span>
                                 <div className="flex-grow">

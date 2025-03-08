@@ -7,3 +7,5 @@ export * from "./Checkbox";
 export * from "./AlertDialog";
 export * from "./Separator";
 export * from "./Badge";
+export * from "./Command";
+export * from "./Dialog";

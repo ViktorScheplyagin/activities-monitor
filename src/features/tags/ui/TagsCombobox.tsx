@@ -6,7 +6,7 @@ import {
     CommandGroup,
     CommandInput,
     CommandItem,
-} from "@/shared/ui";
+} from "@/shared/ui/neomorphic";
 import { cn } from "@/lib/utils";
 import { useCombobox } from "../model/use-combobox";
 import { CommandList } from "cmdk";
@@ -36,7 +36,7 @@ export function TagsCombobox({
 
     // TODO: split the combobox into a separate components
     return (
-        <Command className="rounded-lg border">
+        <Command className="rounded-lg">
             <CommandInput placeholder="Search tags..." />
             <CommandList>
                 <CommandEmpty>No tags found.</CommandEmpty>

@@ -10,7 +10,7 @@
 @layer base {
   :root {
     --background: 0, 0%, 90.98%; /* #e8e8e8 */
-    --foreground: 240 10% 3.9%;
+    --foreground: 0, 0%, 20%; /* #333 */
 
     --shadow-bg-light: #ffffff;
     --shadow-bg-dark: #c5c5c5;
@@ -89,5 +89,11 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .shadow-lifted {
+    @apply shadow-box-lifted -translate-y-1;
   }
 }

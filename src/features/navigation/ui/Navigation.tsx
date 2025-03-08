@@ -12,7 +12,7 @@ export const Navigation = () => {
             <Link
                 href="/"
                 className={cn(
-                    "px-4 py-2 rounded-lg transition-all duration-300",
+                    "px-4 py-2 rounded-xl transition-all duration-300 hover:shadow-lifted active:transform-none",
                     isHome ? "shadow-inset pointer-events-none" : "shadow-box"
                 )}
             >
@@ -21,7 +21,7 @@ export const Navigation = () => {
             <Link
                 href="/completed"
                 className={cn(
-                    "px-4 py-2 rounded-lg transition-all duration-300",
+                    "px-4 py-2 rounded-xl transition-all duration-300 hover:shadow-lifted active:transform-none",
                     isCompleted
                         ? "shadow-inset pointer-events-none"
                         : "shadow-box"

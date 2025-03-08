@@ -20,8 +20,8 @@ const Separator = React.forwardRef<
             className={cn(
                 "shrink-0 shadow-inset-mini rounded",
                 orientation === "horizontal"
-                    ? "h-[5px] w-full"
-                    : "h-full w-[5px]",
+                    ? "h-[2px] w-full"
+                    : "h-full w-[2px]",
                 className
             )}
             {...props}

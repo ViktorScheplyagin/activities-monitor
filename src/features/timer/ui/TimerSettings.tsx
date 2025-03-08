@@ -1,6 +1,11 @@
-import { DialogContent, Dialog, DialogTrigger } from "@/shared/ui/dialog";
+import {
+    DialogContent,
+    Dialog,
+    DialogTrigger,
+    DialogTitle,
+    Button,
+} from "@/shared/ui/neomorphic";
 import { Settings } from "./Settings";
-import { Button } from "@/shared/ui/neomorphic";
 import { SettingsIcon } from "lucide-react";
 
 export const TimerSettings = () => (
@@ -12,6 +17,7 @@ export const TimerSettings = () => (
         </DialogTrigger>
 
         <DialogContent>
+            <DialogTitle>Timer Settings</DialogTitle>
             <Settings />
         </DialogContent>
     </Dialog>

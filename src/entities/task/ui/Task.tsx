@@ -1,9 +1,10 @@
-import { Card } from "@/shared/ui/neomorphic";
+import { Button, Card } from "@/shared/ui/neomorphic";
 import { TaskData } from "../api/dto/task";
 import { Trash2 } from "lucide-react";
 import { formatSeconds } from "../lib/formatSeconds";
 import { Badge } from "@/shared/ui/neomorphic";
 import { Tag } from "@/entities/tag";
+import { cn } from "@/lib/utils";
 
 interface Props {
     task: TaskData;
@@ -34,7 +35,13 @@ export const Task = ({
 
     return (
         <Card
-            className={`cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors duration-500 ${className}`}
+            className={cn(
+                "bg-[hsl(0,_0%,_88%)] dark:bg-card cursor-pointer transition-all duration-300",
+                "hover:shadow-lifted",
+                {
+                    className,
+                }
+            )}
         >
             <div className="flex justify-between">
                 <div>
@@ -42,10 +49,10 @@ export const Task = ({
                         <h3 className="text-lg font-medium">{task.title}</h3>
                         {task.updatedAt && <Badge>updated</Badge>}
                     </div>
-                    <p className="text-gray-500 dark:text-gray-400">
+                    <p className="text-foreground dark:text-gray-400">
                         {task.description}
                     </p>
-                    <div className="pt-4 text-gray-500 dark:text-gray-400">
+                    <div className="pt-4 text-foreground dark:text-gray-400">
                         Time spent: {formatSeconds(task.time)}
                     </div>
                     {taskTags.length > 0 && (
@@ -65,13 +72,14 @@ export const Task = ({
                 </div>
 
                 {onDeleteClick && (
-                    <button
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={handleDeleteClick}
-                        className="p-2 text-gray-500 hover:text-red-500 transition-colors"
                         aria-label="Delete task"
                     >
                         <Trash2 className="h-5 w-5" />
-                    </button>
+                    </Button>
                 )}
             </div>
         </Card>

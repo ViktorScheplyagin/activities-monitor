@@ -6,6 +6,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/shared/ui";
+import { Button } from "@/shared/ui/neomorphic";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 interface Props {
@@ -30,7 +31,9 @@ export const TaskMenu = ({
     return (
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger disabled={disabled}>
-                <EllipsisVertical />
+                <Button variant="ghost" size="icon">
+                    <EllipsisVertical />
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem>

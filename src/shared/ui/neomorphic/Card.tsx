@@ -8,7 +8,7 @@ const Card = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
     <div
         className={cn(
-            "rounded-lg bg-card text-card-foreground",
+            "rounded-xl bg-card text-card-foreground",
             "shadow-box p-6",
             className
         )}
