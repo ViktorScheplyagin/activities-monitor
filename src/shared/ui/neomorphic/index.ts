@@ -9,3 +9,4 @@ export * from "./Separator";
 export * from "./Badge";
 export * from "./Command";
 export * from "./Dialog";
+export * from "./DropdownMenu";
