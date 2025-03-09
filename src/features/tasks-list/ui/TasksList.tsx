@@ -8,13 +8,9 @@ import { sortTasksByDate, groupTasksByDate } from "../lib/tasks-grouping";
 
 interface TasksListProps {
     showCompleted?: boolean;
-    onDeleteClick?: (taskId: string) => void;
 }
 
-export const TasksList = ({
-    showCompleted = false,
-    onDeleteClick,
-}: TasksListProps) => {
+export const TasksList = ({ showCompleted = false }: TasksListProps) => {
     const { tasks, isLoading, allTags, selectedTags, toggleTag } =
         useTasksList();
 
@@ -80,7 +76,6 @@ export const TasksList = ({
                                         <Task
                                             task={task}
                                             tags={allTags}
-                                            onDeleteClick={onDeleteClick}
                                             onTagClick={toggleTag}
                                         />
                                     </Link>
