@@ -69,7 +69,7 @@ export function TagsCombobox({
                                         <Check
                                             className={cn(
                                                 "mr-2 h-4 w-4",
-                                                selectedTagIds.includes(tag.id)
+                                                selectedTagIds?.includes(tag.id)
                                                     ? "opacity-100"
                                                     : "opacity-0"
                                             )}
