@@ -30,7 +30,11 @@ export const TaskMenu = ({
 
     return (
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-            <DropdownMenuTrigger disabled={disabled}>
+            <DropdownMenuTrigger
+                asChild
+                disabled={disabled}
+                className="outline-none"
+            >
                 <Button variant="ghost" size="icon">
                     <EllipsisVertical />
                 </Button>
