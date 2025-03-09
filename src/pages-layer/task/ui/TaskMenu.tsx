@@ -5,8 +5,9 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/shared/ui";
-import { Button } from "@/shared/ui/neomorphic";
+    Button,
+} from "@/shared/ui/neomorphic";
+
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 interface Props {
