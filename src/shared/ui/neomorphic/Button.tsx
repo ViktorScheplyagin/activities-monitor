@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium thansition-translate duration-300 hover:shadow-lifted active:transform-none disabled:hover:shadow-box disabled:translate-y-0 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+    "outline-none inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-translate duration-300 hover:shadow-lifted active:transform-none disabled:hover:shadow-box disabled:translate-y-0 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
     {
         variants: {
             variant: {
@@ -19,7 +19,12 @@ const buttonVariants = cva(
                 ),
                 outline:
                     "bg-background border border-input active:shadow-inset active:border-primary",
-                ghost: "hover:bg-accent hover:text-accent-foreground active:shadow-inset",
+                ghost: cn(
+                    "active:shadow-inset",
+                    "shadow-[inset_0px_0_2px_#8e8e8e]",
+                    "hover:text-accent-foreground hover:shadow-box hover:border-none",
+                    "dark:shadow-[inset_0px_0_2px_#333] dark:hover:shadow-box"
+                ),
             },
             size: {
                 default: "h-9 px-4 py-3",
