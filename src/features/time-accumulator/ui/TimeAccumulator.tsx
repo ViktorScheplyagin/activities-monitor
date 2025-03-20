@@ -14,6 +14,10 @@ export const TimeAccumulator = ({ taskId, initialTime = 0 }: Props) => {
     const mode = useTimerStore((state) => state.mode);
     const workDuration = useTimerStore((state) => state.workDuration);
     const resetTimer = useTimerStore((state) => state.resetTimer);
+    const skippedTimeSpent = useTimerStore((state) => state.skippedTimeSpent);
+    const setSkippedTimeSpent = useTimerStore(
+        (state) => state.setSkippedTimeSpent
+    );
     const totalTime = useTimeAccumulatorStore((state) => state.totalTime);
     const setTotalTime = useTimeAccumulatorStore((state) => state.setTotalTime);
     const updateAccumulatedTime = useTimeAccumulatorStore(
@@ -36,6 +40,14 @@ export const TimeAccumulator = ({ taskId, initialTime = 0 }: Props) => {
             resetTimer();
         }
     }, [timeLeft, mode]);
+
+    // Handle skipped time updates
+    useEffect(() => {
+        if (skippedTimeSpent > 0) {
+            updateAccumulatedTime(taskId, totalTime + skippedTimeSpent);
+            setSkippedTimeSpent(0); // Reset after handling
+        }
+    }, [skippedTimeSpent]);
 
     return (
         <div className="flex flex-col lg:flex-row gap-4 items-center">
