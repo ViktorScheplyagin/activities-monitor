@@ -19,11 +19,6 @@ export const Settings = () => {
         setBreakSeconds,
         setLongBreakMinutes,
         setLongBreakSeconds,
-
-        // Apply methods
-        applyWorkTime,
-        applyBreakTime,
-        applyLongBreakTime,
     } = useSettings();
 
     const commonInputProps = {
@@ -45,8 +40,6 @@ export const Settings = () => {
                             id="work-minutes"
                             value={workMinutes}
                             onChange={(e) => setWorkMinutes(e.target.value)}
-                            onBlur={applyWorkTime}
-                            data-testid="work-minutes"
                         />
                     </div>
                     <span className="text-xl">:</span>
@@ -58,8 +51,6 @@ export const Settings = () => {
                             id="work-seconds"
                             value={workSeconds}
                             onChange={(e) => setWorkSeconds(e.target.value)}
-                            onBlur={applyWorkTime}
-                            data-testid="work-seconds"
                         />
                     </div>
                 </div>
@@ -76,8 +67,6 @@ export const Settings = () => {
                             id="break-minutes"
                             value={breakMinutes}
                             onChange={(e) => setBreakMinutes(e.target.value)}
-                            onBlur={applyBreakTime}
-                            data-testid="break-minutes"
                         />
                     </div>
                     <span className="text-xl">:</span>
@@ -89,8 +78,6 @@ export const Settings = () => {
                             id="break-seconds"
                             value={breakSeconds}
                             onChange={(e) => setBreakSeconds(e.target.value)}
-                            onBlur={applyBreakTime}
-                            data-testid="break-seconds"
                         />
                     </div>
                 </div>
@@ -109,8 +96,6 @@ export const Settings = () => {
                             onChange={(e) =>
                                 setLongBreakMinutes(e.target.value)
                             }
-                            onBlur={applyLongBreakTime}
-                            data-testid="long-break-minutes"
                         />
                     </div>
                     <span className="text-xl">:</span>
@@ -124,8 +109,6 @@ export const Settings = () => {
                             onChange={(e) =>
                                 setLongBreakSeconds(e.target.value)
                             }
-                            onBlur={applyLongBreakTime}
-                            data-testid="long-break-seconds"
                         />
                     </div>
                 </div>
