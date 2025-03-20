@@ -7,6 +7,13 @@ interface ThemeStore {
     setTheme: (theme: Theme) => void;
 }
 
+const getSystemTheme = () => {
+    if (typeof window === "undefined") return "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+};
+
 export const useThemeStore = create<ThemeStore>((set) => ({
     theme:
         (typeof window !== "undefined" &&
@@ -17,11 +24,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
         root.classList.remove("light", "dark");
 
         if (theme === "system") {
-            const systemTheme = window.matchMedia(
-                "(prefers-color-scheme: dark)"
-            ).matches
-                ? "dark"
-                : "light";
+            const systemTheme = getSystemTheme();
             root.classList.add(systemTheme);
         } else {
             root.classList.add(theme);
@@ -31,3 +34,19 @@ export const useThemeStore = create<ThemeStore>((set) => ({
         set({ theme });
     },
 }));
+
+// Initialize theme on store creation
+if (typeof window !== "undefined") {
+    const store = useThemeStore.getState();
+    store.setTheme(store.theme);
+
+    // Listen for system theme changes
+    window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+            const store = useThemeStore.getState();
+            if (store.theme === "system") {
+                store.setTheme("system");
+            }
+        });
+}

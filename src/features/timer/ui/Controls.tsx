@@ -10,6 +10,7 @@ export const Controls: React.FC<ControlsProps> = ({ disabled = false }) => {
     const isRunning = useTimerStore((state) => state.isRunning);
     const setIsRunning = useTimerStore((state) => state.setIsRunning);
     const resetTimer = useTimerStore((state) => state.resetTimer);
+    const skipTimer = useTimerStore((state) => state.skipTimer);
 
     return (
         <div className="w-full flex justify-center gap-4">
@@ -21,6 +22,9 @@ export const Controls: React.FC<ControlsProps> = ({ disabled = false }) => {
             </Button>
             <Button onClick={resetTimer} disabled={disabled}>
                 Reset
+            </Button>
+            <Button onClick={skipTimer} disabled={disabled}>
+                Skip
             </Button>
         </div>
     );

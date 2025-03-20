@@ -19,6 +19,7 @@ interface TimerState {
     incrementSession: () => void;
     resetSession: () => void;
     resetTimer: () => void;
+    skipTimer: () => void;
 }
 
 export const useTimerStore = create<TimerState>((set) => ({
@@ -56,6 +57,41 @@ export const useTimerStore = create<TimerState>((set) => ({
             return {
                 ...state,
                 timeLeft,
+                isRunning: false,
+            };
+        }),
+    skipTimer: () =>
+        set((state) => {
+            let nextMode: TimerMode;
+            let nextTimeLeft: number;
+
+            // Determine next mode based on current mode
+            switch (state.mode) {
+                case "work":
+                    if (state.sessionsCount % 4 === 3) {
+                        // Next would be the 4th session
+                        nextMode = "longBreak";
+                        nextTimeLeft = state.longBreakDuration;
+                    } else {
+                        nextMode = "break";
+                        nextTimeLeft = state.breakDuration;
+                    }
+                    // Increment session count when skipping work mode
+                    set((s) => ({ sessionsCount: s.sessionsCount + 1 }));
+                    break;
+                case "break":
+                case "longBreak":
+                    nextMode = "work";
+                    nextTimeLeft = state.workDuration;
+                    break;
+                default:
+                    nextMode = state.mode;
+                    nextTimeLeft = state.timeLeft;
+            }
+
+            return {
+                mode: nextMode,
+                timeLeft: nextTimeLeft,
                 isRunning: false,
             };
         }),

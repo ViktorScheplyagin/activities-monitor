@@ -48,4 +48,3 @@ export const TimerDisplay: React.FC<TimerProps> = ({
         </div>
     );
 };
-//
