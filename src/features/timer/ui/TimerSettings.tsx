@@ -19,7 +19,7 @@ export const TimerSettings = () => (
         <DialogContent>
             <DialogTitle>Timer Settings</DialogTitle>
             <div className="flex justify-center">
-                <div className="w-36">
+                <div className="w-40">
                     <Settings />
                 </div>
             </div>

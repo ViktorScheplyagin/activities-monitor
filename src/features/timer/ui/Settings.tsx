@@ -28,9 +28,8 @@ export const Settings = () => {
 
     const commonInputProps = {
         type: "number",
-        min: "0",
-        max: "99",
         className: "text-center",
+        placeholder: "00",
     };
 
     return (
@@ -41,24 +40,26 @@ export const Settings = () => {
                     <div className="flex-1">
                         <Input
                             {...commonInputProps}
+                            min="1"
+                            max="99"
                             id="work-minutes"
                             value={workMinutes}
                             onChange={(e) => setWorkMinutes(e.target.value)}
                             onBlur={applyWorkTime}
                             data-testid="work-minutes"
-                            placeholder="Min"
                         />
                     </div>
                     <span className="text-xl">:</span>
                     <div className="flex-1">
                         <Input
                             {...commonInputProps}
+                            min="0"
+                            max="59"
                             id="work-seconds"
                             value={workSeconds}
                             onChange={(e) => setWorkSeconds(e.target.value)}
                             onBlur={applyWorkTime}
                             data-testid="work-seconds"
-                            placeholder="Sec"
                         />
                     </div>
                 </div>
@@ -70,24 +71,26 @@ export const Settings = () => {
                     <div className="flex-1">
                         <Input
                             {...commonInputProps}
+                            min="1"
+                            max="99"
                             id="break-minutes"
                             value={breakMinutes}
                             onChange={(e) => setBreakMinutes(e.target.value)}
                             onBlur={applyBreakTime}
                             data-testid="break-minutes"
-                            placeholder="Min"
                         />
                     </div>
                     <span className="text-xl">:</span>
                     <div className="flex-1">
                         <Input
                             {...commonInputProps}
+                            min="0"
+                            max="59"
                             id="break-seconds"
                             value={breakSeconds}
                             onChange={(e) => setBreakSeconds(e.target.value)}
                             onBlur={applyBreakTime}
                             data-testid="break-seconds"
-                            placeholder="Sec"
                         />
                     </div>
                 </div>
@@ -99,6 +102,8 @@ export const Settings = () => {
                     <div className="flex-1">
                         <Input
                             {...commonInputProps}
+                            min="1"
+                            max="99"
                             id="long-break-minutes"
                             value={longBreakMinutes}
                             onChange={(e) =>
@@ -106,13 +111,14 @@ export const Settings = () => {
                             }
                             onBlur={applyLongBreakTime}
                             data-testid="long-break-minutes"
-                            placeholder="Min"
                         />
                     </div>
                     <span className="text-xl">:</span>
                     <div className="flex-1">
                         <Input
                             {...commonInputProps}
+                            min="0"
+                            max="59"
                             id="long-break-seconds"
                             value={longBreakSeconds}
                             onChange={(e) =>
@@ -120,7 +126,6 @@ export const Settings = () => {
                             }
                             onBlur={applyLongBreakTime}
                             data-testid="long-break-seconds"
-                            placeholder="Sec"
                         />
                     </div>
                 </div>
