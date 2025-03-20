@@ -18,7 +18,11 @@ export const TimerSettings = () => (
 
         <DialogContent>
             <DialogTitle>Timer Settings</DialogTitle>
-            <Settings />
+            <div className="flex justify-center">
+                <div className="w-36">
+                    <Settings />
+                </div>
+            </div>
         </DialogContent>
     </Dialog>
 );
