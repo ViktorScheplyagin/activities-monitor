@@ -5,9 +5,10 @@ interface TaskDeleteState {
     isOpen: boolean;
     targetTaskId: string | null;
     isDeleting: boolean;
-    lastDeletedTaskId: string | null;
+    isTaskDeleted: boolean;
     setIsOpen: (isOpen: boolean) => void;
     setTargetTaskId: (id: string | null) => void;
+    setIsTaskDeleted: (id: boolean) => void;
     deleteTask: () => Promise<void>;
 }
 
@@ -15,7 +16,7 @@ export const useTaskDeleteStore = create<TaskDeleteState>((set, get) => ({
     isOpen: false,
     targetTaskId: null,
     isDeleting: false,
-    lastDeletedTaskId: null,
+    isTaskDeleted: false,
 
     setIsOpen: (isOpen) => {
         set({ isOpen });
@@ -25,6 +26,8 @@ export const useTaskDeleteStore = create<TaskDeleteState>((set, get) => ({
     },
 
     setTargetTaskId: (id) => set({ targetTaskId: id }),
+
+    setIsTaskDeleted: (id) => set({ isTaskDeleted: id }),
 
     deleteTask: async () => {
         const { targetTaskId } = get();
@@ -36,7 +39,7 @@ export const useTaskDeleteStore = create<TaskDeleteState>((set, get) => ({
             set({
                 isOpen: false,
                 targetTaskId: null,
-                lastDeletedTaskId: targetTaskId,
+                isTaskDeleted: true,
             });
         } catch (error) {
             console.error("Failed to delete task:", error);

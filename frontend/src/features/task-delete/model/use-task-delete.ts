@@ -2,12 +2,17 @@ import { useEffect } from "react";
 import { useTaskDeleteStore } from "./store";
 
 interface Options {
-    onDelete?: () => void;
+    onTaskDelete?: () => void;
 }
 
 export const useTaskDelete = (options?: Options) => {
-    const { isOpen, setIsOpen, setTargetTaskId, lastDeletedTaskId } =
-        useTaskDeleteStore();
+    const {
+        isOpen,
+        isTaskDeleted: lastDeletedTaskId,
+        setIsOpen,
+        setTargetTaskId,
+        setIsTaskDeleted: setLastDeletedTaskId,
+    } = useTaskDeleteStore();
 
     const openDialogFor = (taskId: string) => {
         setIsOpen(true);
@@ -16,7 +21,8 @@ export const useTaskDelete = (options?: Options) => {
 
     useEffect(() => {
         if (lastDeletedTaskId) {
-            options?.onDelete?.();
+            options?.onTaskDelete?.();
+            setLastDeletedTaskId(false);
         }
     }, [lastDeletedTaskId]);
 
